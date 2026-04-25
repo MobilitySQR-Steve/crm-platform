@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import {
   PrismaClient,
   UserRole,
@@ -7,17 +8,34 @@ import {
   AccountSource,
   PursuitStatus,
 } from '@prisma/client';
+import { hashPassword, PASSWORD_PLACEHOLDER } from '../src/lib/password.js';
 
 const db = new PrismaClient();
 
 async function main() {
-  // ── Owner (real password set in Step 2 / auth) ─────────────────
+  // ── Owner ─────────────────────────────────────────────────────
+  // Generate a strong random password the FIRST time we seed (or any
+  // time the placeholder is still in place). On subsequent runs the
+  // existing hash is left alone.
+  const existingOwner = await db.user.findUnique({
+    where: { email: 'steve@mobilitysqr.com' },
+  });
+
+  let plainPassword: string | undefined;
+  let passwordHash: string;
+  if (!existingOwner || existingOwner.passwordHash === PASSWORD_PLACEHOLDER) {
+    plainPassword = randomBytes(15).toString('base64url'); // 20 chars
+    passwordHash = await hashPassword(plainPassword);
+  } else {
+    passwordHash = existingOwner.passwordHash;
+  }
+
   const owner = await db.user.upsert({
     where: { email: 'steve@mobilitysqr.com' },
-    update: {},
+    update: { passwordHash },
     create: {
       email: 'steve@mobilitysqr.com',
-      passwordHash: '__set_in_auth_step__',
+      passwordHash,
       firstName: 'Steve',
       lastName: 'W.',
       role: UserRole.ADMIN,
@@ -82,6 +100,16 @@ async function main() {
   }
 
   console.log(`Seeded ${seeds.length} accounts and 1 user.`);
+
+  if (plainPassword) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log("  Steve's initial password (shown ONCE — stash it):");
+    console.log(`     ${plainPassword}`);
+    console.log('  Login:  POST /auth/login { email, password }');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+  }
 }
 
 main()

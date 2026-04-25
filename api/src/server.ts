@@ -1,10 +1,12 @@
 import Fastify, { type FastifyError } from 'fastify';
+import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import sensible from '@fastify/sensible';
 import { config } from './config.js';
 import { logger } from './lib/logger.js';
 import { healthRoutes } from './routes/health.js';
+import { authRoutes } from './routes/auth.js';
 
 export async function buildServer() {
   const app = Fastify({ loggerInstance: logger });
@@ -14,9 +16,11 @@ export async function buildServer() {
     origin: config.NODE_ENV === 'development' ? 'http://localhost:5173' : false,
     credentials: true,
   });
+  await app.register(cookie);
   await app.register(sensible);
 
   await app.register(healthRoutes, { prefix: '/health' });
+  await app.register(authRoutes, { prefix: '/auth' });
 
   app.setErrorHandler((error: FastifyError, request, reply) => {
     request.log.error({ err: error }, 'request errored');

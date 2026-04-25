@@ -117,6 +117,20 @@ model User {
   ownedAccounts      Account[]     @relation("AccountOwner")
   ownedOpportunities Opportunity[] @relation("OpportunityOwner")
   activities         Activity[]
+  sessions           Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userAgent String?
+  ipAddress String?
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Account {
