@@ -1,5 +1,12 @@
-import 'dotenv/config';
+import { config as loadEnv } from 'dotenv';
 import { z } from 'zod';
+
+// Override parent-process env vars with .env values. Without this, an
+// empty `ANTHROPIC_API_KEY=` exported in the user's shell silently
+// shadows the real key in api/.env (default dotenv behavior is "first
+// definition wins"). In production env vars come from the host, not
+// .env, so this is dev-only behavior.
+loadEnv({ override: true });
 
 const Schema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
