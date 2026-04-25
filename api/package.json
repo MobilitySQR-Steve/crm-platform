@@ -13,7 +13,9 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma migrate reset --force",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "morning:dry": "tsx scripts/morning-cron.ts --dry-run",
+    "morning:run": "tsx scripts/morning-cron.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
