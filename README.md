@@ -7,11 +7,25 @@ A unified React CRM for two modules: **TaxSQR** (D2C tax client management) and 
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+npm install            # installs frontend + api workspace
+npm run dev            # frontend on :5173
 ```
 
 Open http://localhost:5173 — you'll land on the TaxSQR dashboard.
+
+### Backend (`api/`)
+
+Fastify + Prisma + Postgres. Requires Docker Desktop or OrbStack.
+
+```bash
+npm run db:up          # start Postgres on :5432 (docker compose)
+cp api/.env.example api/.env
+npm run db:migrate     # create tables
+npm run db:seed        # seed Steve + 3 sample accounts
+npm run api:dev        # Fastify on :4000
+```
+
+See [api/README.md](api/README.md) for the full API surface and model docs.
 
 ---
 

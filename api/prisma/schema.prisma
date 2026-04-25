@@ -1,0 +1,242 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ──────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum EmployeeBand {
+  UNKNOWN
+  LT_100
+  B_100_250
+  B_250_700
+  B_700_1000
+  GT_1000
+}
+
+enum CrossBorderMovesBand {
+  UNKNOWN
+  LT_10
+  B_10_50
+  B_50_250
+  B_250_500
+  GT_500
+}
+
+enum TriggerEvent {
+  UNKNOWN
+  NEW_MARKET
+  INTL_HIRING
+  AUDIT_FINDING
+  OUTGREW_TOOL
+  RFP
+  INBOUND
+  OTHER
+}
+
+enum AccountSource {
+  MANUAL
+  ENRICHMENT
+  REFERRAL
+  INBOUND
+  CONFERENCE
+  IMPORT
+}
+
+enum PursuitStatus {
+  NEW
+  RESEARCHING
+  CONTACTING
+  ACTIVE_OPP
+  CUSTOMER
+  DISQUALIFIED
+}
+
+enum OpportunityStage {
+  PROSPECT
+  DISCOVERY
+  DEMO
+  PROPOSAL
+  NEGOTIATION
+  CLOSED_WON
+  CLOSED_LOST
+  ON_HOLD
+}
+
+enum ContactPersona {
+  ECONOMIC_BUYER
+  CHAMPION
+  TECHNICAL
+  END_USER
+  EXEC_SPONSOR
+  OTHER
+}
+
+enum ActivityType {
+  CALL
+  EMAIL
+  MEETING
+  NOTE
+  SYSTEM
+}
+
+enum EnrichmentKind {
+  ENRICH
+  SOURCE
+}
+
+enum EnrichmentStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  PARTIAL
+  FAILED
+}
+
+// ─── Models ─────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  ownedAccounts      Account[]     @relation("AccountOwner")
+  ownedOpportunities Opportunity[] @relation("OpportunityOwner")
+  activities         Activity[]
+}
+
+model Account {
+  id String @id @default(cuid())
+
+  // identity
+  name        String
+  domain      String?
+  website     String?
+  linkedinUrl String?
+  hqCountry   String?
+  hqCity      String?
+  industry    String?
+
+  // fit signals (the 12-field schema)
+  employeeBand           EmployeeBand         @default(UNKNOWN)
+  crossBorderMovesBand   CrossBorderMovesBand @default(UNKNOWN)
+  countriesWithEmployees String[]             @default([])
+  currentToolingTags     String[]             @default([])
+  triggerEvent           TriggerEvent         @default(UNKNOWN)
+  triggerNote            String?
+
+  // pursuit
+  pursuitStatus PursuitStatus @default(NEW)
+  source        AccountSource @default(MANUAL)
+  ownerId       String?
+  owner         User?         @relation("AccountOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+
+  // enrichment audit
+  enrichmentConfidence Float?
+  lastEnrichedAt       DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contacts       Contact[]
+  opportunities  Opportunity[]
+  activities     Activity[]
+  enrichmentRuns EnrichmentRun[]
+
+  @@index([domain])
+  @@index([ownerId])
+  @@index([pursuitStatus])
+  @@index([source])
+  @@index([lastEnrichedAt])
+}
+
+model Contact {
+  id          String         @id @default(cuid())
+  accountId   String
+  account     Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  firstName   String
+  lastName    String
+  email       String?
+  phone       String?
+  title       String?
+  linkedinUrl String?
+  persona     ContactPersona @default(OTHER)
+  isPrimary   Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([accountId])
+  @@index([email])
+}
+
+model Opportunity {
+  id                String           @id @default(cuid())
+  accountId         String
+  account           Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  name              String
+  stage             OpportunityStage @default(PROSPECT)
+  amountUsd         Decimal?         @db.Decimal(12, 2)
+  expectedCloseDate DateTime?        @db.Date
+  ownerId           String?
+  owner             User?            @relation("OpportunityOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  activities Activity[]
+
+  @@index([accountId])
+  @@index([stage])
+  @@index([ownerId])
+}
+
+model Activity {
+  id            String       @id @default(cuid())
+  accountId     String
+  account       Account      @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id], onDelete: SetNull)
+  userId        String?
+  user          User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  type          ActivityType
+  subject       String
+  body          String?
+  occurredAt    DateTime     @default(now())
+  createdAt     DateTime     @default(now())
+
+  @@index([accountId])
+  @@index([opportunityId])
+  @@index([occurredAt])
+}
+
+model EnrichmentRun {
+  id            String           @id @default(cuid())
+  accountId     String?
+  account       Account?         @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  kind          EnrichmentKind
+  status        EnrichmentStatus @default(PENDING)
+  startedAt     DateTime         @default(now())
+  finishedAt    DateTime?
+  fieldsUpdated String[]         @default([])
+  confidence    Float?
+  modelUsed     String?
+  rawPayload    Json?
+  errorMessage  String?
+
+  @@index([accountId])
+  @@index([kind, status])
+  @@index([startedAt])
+}

@@ -3,10 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": ["api"],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api:dev": "npm run -w api dev",
+    "api:build": "npm run -w api build",
+    "api:start": "npm run -w api start",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f postgres",
+    "db:migrate": "npm run -w api db:migrate",
+    "db:seed": "npm run -w api db:seed",
+    "db:reset": "npm run -w api db:reset",
+    "db:studio": "npm run -w api db:studio"
   },
   "dependencies": {
     "lucide-react": "^0.383.0",

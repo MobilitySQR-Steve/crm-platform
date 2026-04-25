@@ -2,5 +2,14 @@ node_modules/
 dist/
 .DS_Store
 *.local
+*.log
 .env
 .env.local
+
+# Backend artifacts
+api/dist/
+api/node_modules/
+
+# IDE
+.vscode/
+.idea/
