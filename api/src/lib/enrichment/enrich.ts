@@ -24,14 +24,16 @@ export interface EnrichOptions {
   triggeredBy?: string;
 }
 
+// Discriminated union — `skipped` is the discriminator. TypeScript narrows
+// correctly when both branches include the literal.
 export interface EnrichResult {
+  skipped: false;
   runId: string;
   status: EnrichmentStatus;
   fieldsUpdated: string[];
   confidence: number;
   rationale: string;
   citations: string[];
-  skipped?: false;
 }
 
 export interface EnrichSkipped {
@@ -152,6 +154,7 @@ export async function enrichAccount(
     );
 
     return {
+      skipped: false,
       runId: run.id,
       status,
       fieldsUpdated,

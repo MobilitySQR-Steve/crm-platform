@@ -2,6 +2,7 @@ import Fastify, { type FastifyError } from 'fastify';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
 import sensible from '@fastify/sensible';
 import { config } from './config.js';
 import { logger } from './lib/logger.js';
@@ -14,16 +15,27 @@ import { activityRoutes } from './routes/activities.js';
 import { userRoutes } from './routes/users.js';
 import { enrichmentRoutes } from './routes/enrichment.js';
 
+function resolveCorsOrigin(): string | string[] | false {
+  if (config.NODE_ENV === 'development') return 'http://localhost:5173';
+  if (!config.ALLOWED_ORIGIN) return false;
+  // Comma-separated for multi-origin (e.g. preview deploys)
+  const origins = config.ALLOWED_ORIGIN.split(',').map((o) => o.trim()).filter(Boolean);
+  return origins.length === 1 ? origins[0]! : origins;
+}
+
 export async function buildServer() {
-  const app = Fastify({ loggerInstance: logger });
+  const app = Fastify({ loggerInstance: logger, trustProxy: true });
 
   await app.register(helmet);
   await app.register(cors, {
-    origin: config.NODE_ENV === 'development' ? 'http://localhost:5173' : false,
+    origin: resolveCorsOrigin(),
     credentials: true,
   });
   await app.register(cookie);
   await app.register(sensible);
+  // Global rate limit is opt-in per route; routes set their own caps via
+  // the route-level `config.rateLimit` option.
+  await app.register(rateLimit, { global: false });
 
   await app.register(healthRoutes, { prefix: '/health' });
   await app.register(authRoutes, { prefix: '/auth' });

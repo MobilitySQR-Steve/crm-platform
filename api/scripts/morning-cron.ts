@@ -70,7 +70,7 @@ async function morningCron(opts: MorningCronOptions): Promise<CronStats> {
       }
       try {
         const result = await enrichAccount(acct.id, { triggeredBy: 'cron' });
-        if ('skipped' in result) {
+        if (result.skipped) {
           stats.reEnrichSkipped++;
           logger.info({ name: acct.name, reason: result.reason }, 'skipped');
         } else {

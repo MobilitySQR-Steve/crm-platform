@@ -22,6 +22,11 @@ const Schema = z.object({
     z.string().min(1).optional(),
   ),
   ENRICHMENT_MODEL: z.string().default('claude-sonnet-4-6'),
+
+  // Production CORS allowlist. In dev we hardcode http://localhost:5173.
+  // In prod set this to the deployed frontend origin (e.g. the Vercel URL).
+  // Comma-separated to allow multiple origins.
+  ALLOWED_ORIGIN: z.string().optional(),
 });
 
 const parsed = Schema.safeParse(process.env);

@@ -1,0 +1,27 @@
+# Prevent the build context from including local node_modules / build
+# artifacts / secrets. Renders' Docker build uses the repo root as the
+# build context for the api Dockerfile.
+
+node_modules
+**/node_modules
+dist
+**/dist
+api/dist
+.env
+**/.env
+.env.local
+**/.env.local
+*.log
+.DS_Store
+.git
+.github
+.vscode
+.idea
+.agents
+skills-lock.json
+
+# Don't ship the React frontend into the api image — Vercel handles that.
+src
+public
+index.html
+vite.config.js

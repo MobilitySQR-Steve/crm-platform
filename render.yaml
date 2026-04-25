@@ -1,0 +1,71 @@
+# Render Blueprint — declares the two services that make up the backend.
+# Connect this repo to Render as a Blueprint and Render will create both
+# services on first deploy.
+#
+# Web service: Fastify API on port 4000.
+# Cron service: morning enrichment script, daily at 07:00 UTC.
+#
+# Secrets (DATABASE_URL, ANTHROPIC_API_KEY, ALLOWED_ORIGIN) are set in the
+# Render dashboard under each service's Environment tab — sync:false here
+# means Render will prompt for them rather than store in the repo.
+
+databases: []
+
+envVarGroups:
+  - name: crm-shared
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ENRICHMENT_MODEL
+        value: claude-sonnet-4-6
+
+services:
+  # ── Fastify API ────────────────────────────────────────────────
+  - type: web
+    name: crm-api
+    runtime: docker
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: .
+    plan: starter   # $7/mo — free tier sleeps after 15 min idle
+    region: oregon  # change to "frankfurt" if your Neon region is EU
+    healthCheckPath: /health
+    # Run pending migrations on every deploy. Idempotent.
+    preDeployCommand: "npx prisma migrate deploy --schema api/prisma/schema.prisma"
+    envVars:
+      - fromGroup: crm-shared
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "4000"
+      - key: LOG_LEVEL
+        value: info
+      # Set to your Vercel frontend URL after first frontend deploy.
+      # Comma-separated for multiple (preview deploys + prod).
+      - key: ALLOWED_ORIGIN
+        sync: false
+
+  # ── Morning enrichment cron ────────────────────────────────────
+  - type: cron
+    name: crm-morning-cron
+    runtime: docker
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: .
+    plan: starter
+    region: oregon
+    # Daily at 07:00 UTC (adjust to your timezone preference).
+    schedule: "0 7 * * *"
+    dockerCommand: "node api/dist/scripts/morning-cron.js"
+    envVars:
+      - fromGroup: crm-shared
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+      - key: MORNING_CRON_REENRICH
+        value: "5"
+      - key: MORNING_CRON_SOURCE
+        value: "5"
+      - key: MORNING_CRON_ENRICH_NEW
+        value: "true"

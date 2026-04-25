@@ -21,10 +21,16 @@ const LoginBody = z.object({
 });
 
 function setSessionCookie(reply: FastifyReply, sessionId: string): void {
+  // In dev: lax cookie works for same-port localhost requests.
+  // In prod: frontend (Vercel) and API (Render) are different origins,
+  // so we need SameSite=None + Secure for the cookie to be sent on
+  // cross-origin fetch with credentials:'include'. SameSite=None
+  // requires Secure (HTTPS) — which production already is.
+  const isProd = config.NODE_ENV === 'production';
   reply.setCookie(SESSION_COOKIE, sessionId, {
     httpOnly: true,
-    secure: config.NODE_ENV === 'production',
-    sameSite: 'lax',
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
     path: '/',
     maxAge: SESSION_TTL_SECONDS,
   });
@@ -45,10 +51,15 @@ function publicUser(user: Pick<User, 'id' | 'email' | 'firstName' | 'lastName' |
 }
 
 export const authRoutes: FastifyPluginAsync = async (app) => {
+  // Per-route rate limit. Tight enough to stop credential-stuffing,
+  // loose enough that humans won't trip it on legitimate retries.
+  const loginRateLimit = { rateLimit: { max: 5, timeWindow: '1 minute' } };
+  const registerRateLimit = { rateLimit: { max: 3, timeWindow: '1 minute' } };
+
   // ── POST /auth/register ─────────────────────────────────────
   // First user (when DB is empty) bootstraps as ADMIN with no auth.
   // Every subsequent registration requires an authenticated ADMIN.
-  app.post('/register', async (request, reply) => {
+  app.post('/register', { config: registerRateLimit }, async (request, reply) => {
     const parse = RegisterBody.safeParse(request.body);
     if (!parse.success) {
       return reply.status(400).send({ error: 'invalid_body', details: parse.error.flatten() });
@@ -75,7 +86,7 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
   });
 
   // ── POST /auth/login ────────────────────────────────────────
-  app.post('/login', async (request, reply) => {
+  app.post('/login', { config: loginRateLimit }, async (request, reply) => {
     const parse = LoginBody.safeParse(request.body);
     if (!parse.success) {
       return reply.status(400).send({ error: 'invalid_body' });
