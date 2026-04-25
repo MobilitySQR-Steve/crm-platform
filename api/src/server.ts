@@ -7,6 +7,11 @@ import { config } from './config.js';
 import { logger } from './lib/logger.js';
 import { healthRoutes } from './routes/health.js';
 import { authRoutes } from './routes/auth.js';
+import { accountRoutes } from './routes/accounts.js';
+import { opportunityRoutes } from './routes/opportunities.js';
+import { contactRoutes } from './routes/contacts.js';
+import { activityRoutes } from './routes/activities.js';
+import { userRoutes } from './routes/users.js';
 
 export async function buildServer() {
   const app = Fastify({ loggerInstance: logger });
@@ -21,6 +26,11 @@ export async function buildServer() {
 
   await app.register(healthRoutes, { prefix: '/health' });
   await app.register(authRoutes, { prefix: '/auth' });
+  await app.register(accountRoutes, { prefix: '/accounts' });
+  await app.register(opportunityRoutes, { prefix: '/opportunities' });
+  await app.register(contactRoutes, { prefix: '/contacts' });
+  await app.register(activityRoutes, { prefix: '/activities' });
+  await app.register(userRoutes, { prefix: '/users' });
 
   app.setErrorHandler((error: FastifyError, request, reply) => {
     request.log.error({ err: error }, 'request errored');
