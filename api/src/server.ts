@@ -12,6 +12,7 @@ import { opportunityRoutes } from './routes/opportunities.js';
 import { contactRoutes } from './routes/contacts.js';
 import { activityRoutes } from './routes/activities.js';
 import { userRoutes } from './routes/users.js';
+import { enrichmentRoutes } from './routes/enrichment.js';
 
 export async function buildServer() {
   const app = Fastify({ loggerInstance: logger });
@@ -31,6 +32,7 @@ export async function buildServer() {
   await app.register(contactRoutes, { prefix: '/contacts' });
   await app.register(activityRoutes, { prefix: '/activities' });
   await app.register(userRoutes, { prefix: '/users' });
+  await app.register(enrichmentRoutes, { prefix: '/enrichment' });
 
   app.setErrorHandler((error: FastifyError, request, reply) => {
     request.log.error({ err: error }, 'request errored');

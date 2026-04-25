@@ -132,3 +132,29 @@ export function useUsers() {
     staleTime: 5 * 60 * 1000, // user list rarely changes
   });
 }
+
+// ── Enrichment ───────────────────────────────────────────────────
+
+export function useEnrichAccount() {
+  const qc = useQueryClient();
+  return useMutation({
+    // 30-60s typical with web search — leave the loading state up.
+    mutationFn: ({ accountId, force = false }) =>
+      api(`/enrichment/account/${accountId}`, { method: 'POST', body: { force } }),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ['account', vars.accountId] });
+      qc.invalidateQueries({ queryKey: ['accounts'] });
+    },
+  });
+}
+
+export function useSourceAccounts() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ count = 10, hint }) =>
+      api('/enrichment/source', { method: 'POST', body: { count, ...(hint ? { hint } : {}) } }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['accounts'] });
+    },
+  });
+}

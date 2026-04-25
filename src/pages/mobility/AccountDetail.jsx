@@ -4,7 +4,8 @@ import {
   Globe, Linkedin, MapPin, Pencil, Plus, Mail, Phone,
   CheckCircle2, AlertCircle, Loader2, Sparkles, Clock, ArrowLeft, ExternalLink,
 } from 'lucide-react';
-import { useAccount } from '../../lib/queries';
+import { useAccount, useEnrichAccount } from '../../lib/queries';
+import { ApiError } from '../../lib/api';
 import {
   EMPLOYEE_BAND, MOVES_BAND, TRIGGER_EVENT, PURSUIT_STATUS, PURSUIT_COLORS,
   ACCOUNT_SOURCE, OPP_STAGE, OPP_STAGE_COLORS,
@@ -403,45 +404,118 @@ function ActivitiesTab({ account, onLog }) {
 
 function EnrichmentTab({ account }) {
   const runs = account.enrichmentRuns ?? [];
-  if (runs.length === 0) {
-    return <Empty icon={Sparkles} title="No enrichment runs yet for this account." />;
+  const enrich = useEnrichAccount();
+  const [forceFlag, setForceFlag] = useState(false);
+  const [lastResult, setLastResult] = useState(null);
+  const [lastError, setLastError] = useState(null);
+
+  async function runEnrichment() {
+    setLastResult(null);
+    setLastError(null);
+    try {
+      const result = await enrich.mutateAsync({ accountId: account.id, force: forceFlag });
+      setLastResult(result);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 503) {
+        setLastError('Enrichment is disabled — set ANTHROPIC_API_KEY in api/.env and restart the server.');
+      } else if (err instanceof ApiError) {
+        setLastError(err.details?.message ?? err.code ?? `Request failed (${err.status})`);
+      } else {
+        setLastError(err?.message ?? 'Unknown error');
+      }
+    }
   }
+
   return (
-    <Card style={{ padding: 0 }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
-        <thead>
-          <tr style={{ borderBottom: '1px solid #ECEAF3' }}>
-            {['Started', 'Kind', 'Status', 'Fields updated', 'Confidence', 'Model'].map(h => (
-              <th key={h} style={{ textAlign: 'left', padding: '11px 16px', color: '#9CA3AF', fontWeight: 500, fontSize: 13, letterSpacing: 0.5, textTransform: 'uppercase' }}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {runs.map(r => {
-            const color = ENRICHMENT_STATUS_COLORS[r.status] ?? '#9CA3AF';
-            const StatusIcon = r.status === 'SUCCESS' ? CheckCircle2 : r.status === 'FAILED' ? AlertCircle : r.status === 'RUNNING' ? Loader2 : Clock;
-            return (
-              <tr key={r.id} style={{ borderTop: '1px solid #F3F4F6' }}>
-                <td style={{ padding: '13px 16px', color: '#374151' }}>{fmtDateTime(r.startedAt)}</td>
-                <td style={{ padding: '13px 16px', color: '#6B7280' }}>{r.kind}</td>
-                <td style={{ padding: '13px 16px' }}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 100, fontSize: 13, fontWeight: 600, background: color + '18', color }}>
-                    <StatusIcon size={11} className={r.status === 'RUNNING' ? 'spin' : ''} /> {r.status}
-                  </span>
-                </td>
-                <td style={{ padding: '13px 16px', color: '#6B7280', fontSize: 14 }}>
-                  {r.fieldsUpdated?.length ? r.fieldsUpdated.join(', ') : '—'}
-                </td>
-                <td style={{ padding: '13px 16px', color: '#374151' }}>
-                  {r.confidence != null ? `${Math.round(r.confidence * 100)}%` : '—'}
-                </td>
-                <td style={{ padding: '13px 16px', color: '#9CA3AF', fontSize: 14 }}>{r.modelUsed || '—'}</td>
+    <>
+      {/* Action header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ fontSize: 14, color: '#6B7280' }}>
+          {account.lastEnrichedAt
+            ? <>Last enriched <b style={{ color: '#374151' }}>{fmtDateTime(account.lastEnrichedAt)}</b>{account.enrichmentConfidence != null && <> · confidence <b style={{ color: '#374151' }}>{Math.round(account.enrichmentConfidence * 100)}%</b></>}</>
+            : <>Never enriched. Click <b>Run enrichment</b> to research this account via web search.</>}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: '#6B7280' }}>
+            <input type="checkbox" checked={forceFlag} onChange={(e) => setForceFlag(e.target.checked)} disabled={enrich.isPending} />
+            Force re-run
+          </label>
+          <button onClick={runEnrichment} disabled={enrich.isPending}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: ACCENT, color: 'white', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: enrich.isPending ? 'not-allowed' : 'pointer', opacity: enrich.isPending ? 0.6 : 1, fontFamily: 'inherit' }}>
+            {enrich.isPending
+              ? <><Loader2 size={13} className="spin" /> Researching…</>
+              : <><Sparkles size={13} /> Run enrichment</>}
+          </button>
+        </div>
+      </div>
+
+      {/* Status banner */}
+      {enrich.isPending && (
+        <div style={{ background: '#EFF6FF', border: '1px solid #BFDBFE', color: '#1D4ED8', borderRadius: 10, padding: '12px 16px', fontSize: 14, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Loader2 size={14} className="spin" /> Web research in progress — this typically takes 30–60 seconds.
+        </div>
+      )}
+      {lastError && !enrich.isPending && (
+        <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', borderRadius: 10, padding: '12px 16px', fontSize: 14, marginBottom: 14 }}>
+          <b>Enrichment failed:</b> {lastError}
+        </div>
+      )}
+      {lastResult?.skipped && !enrich.isPending && (
+        <div style={{ background: '#FEFCE8', border: '1px solid #FEF08A', color: '#A16207', borderRadius: 10, padding: '12px 16px', fontSize: 14, marginBottom: 14 }}>
+          <b>Skipped:</b> {lastResult.reason}. Tick "Force re-run" to enrich anyway.
+        </div>
+      )}
+      {lastResult && !lastResult.skipped && !enrich.isPending && (
+        <div style={{ background: '#F0FDF4', border: '1px solid #BBF7D0', color: '#15803D', borderRadius: 10, padding: '12px 16px', fontSize: 14, marginBottom: 14 }}>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>Enrichment complete · {lastResult.status} · confidence {Math.round((lastResult.confidence ?? 0) * 100)}%</div>
+          {lastResult.fieldsUpdated?.length > 0
+            ? <div>Fields filled: {lastResult.fieldsUpdated.join(', ')}</div>
+            : <div>No new fields added — model did not find new information.</div>}
+          {lastResult.rationale && <div style={{ marginTop: 6, fontSize: 13, color: '#15803D', opacity: 0.85 }}>{lastResult.rationale}</div>}
+        </div>
+      )}
+
+      {/* Run history */}
+      {runs.length === 0 ? (
+        <Empty icon={Sparkles} title="No enrichment runs yet for this account." />
+      ) : (
+        <Card style={{ padding: 0 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid #ECEAF3' }}>
+                {['Started', 'Kind', 'Status', 'Fields updated', 'Confidence', 'Model'].map(h => (
+                  <th key={h} style={{ textAlign: 'left', padding: '11px 16px', color: '#9CA3AF', fontWeight: 500, fontSize: 13, letterSpacing: 0.5, textTransform: 'uppercase' }}>{h}</th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </Card>
+            </thead>
+            <tbody>
+              {runs.map(r => {
+                const color = ENRICHMENT_STATUS_COLORS[r.status] ?? '#9CA3AF';
+                const StatusIcon = r.status === 'SUCCESS' ? CheckCircle2 : r.status === 'FAILED' ? AlertCircle : r.status === 'RUNNING' ? Loader2 : Clock;
+                return (
+                  <tr key={r.id} style={{ borderTop: '1px solid #F3F4F6' }}>
+                    <td style={{ padding: '13px 16px', color: '#374151' }}>{fmtDateTime(r.startedAt)}</td>
+                    <td style={{ padding: '13px 16px', color: '#6B7280' }}>{r.kind}</td>
+                    <td style={{ padding: '13px 16px' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 100, fontSize: 13, fontWeight: 600, background: color + '18', color }}>
+                        <StatusIcon size={11} className={r.status === 'RUNNING' ? 'spin' : ''} /> {r.status}
+                      </span>
+                    </td>
+                    <td style={{ padding: '13px 16px', color: '#6B7280', fontSize: 14 }}>
+                      {r.fieldsUpdated?.length ? r.fieldsUpdated.join(', ') : '—'}
+                    </td>
+                    <td style={{ padding: '13px 16px', color: '#374151' }}>
+                      {r.confidence != null ? `${Math.round(r.confidence * 100)}%` : '—'}
+                    </td>
+                    <td style={{ padding: '13px 16px', color: '#9CA3AF', fontSize: 14 }}>{r.modelUsed || '—'}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )}
+    </>
   );
 }
 

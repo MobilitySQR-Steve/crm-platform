@@ -6,6 +6,15 @@ const Schema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   DATABASE_URL: z.string().url(),
+
+  // Optional — enrichment service is disabled when missing.
+  // Empty string treated as missing so .env.example with `ANTHROPIC_API_KEY=`
+  // doesn't fail validation.
+  ANTHROPIC_API_KEY: z.preprocess(
+    (v) => (v === '' || v === undefined ? undefined : v),
+    z.string().min(1).optional(),
+  ),
+  ENRICHMENT_MODEL: z.string().default('claude-sonnet-4-6'),
 });
 
 const parsed = Schema.safeParse(process.env);
