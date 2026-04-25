@@ -15,14 +15,14 @@ export default function Placeholder({ title }) {
             <Construction size={24} color={accent} />
           </div>
           <h2 style={{ fontSize:20, fontWeight:700, color:'#374151', marginBottom:8 }}>{title}</h2>
-          <p style={{ fontSize:14, color:'#9CA3AF', maxWidth:340, margin:'0 auto', lineHeight:1.6 }}>
+          <p style={{ fontSize:16, color:'#9CA3AF', maxWidth:340, margin:'0 auto', lineHeight:1.6 }}>
             This screen is on the roadmap. Wire up your API and drop the component in{' '}
-            <code style={{ background:'#F3F4F6', padding:'1px 6px', borderRadius:4, fontSize:12 }}>src/pages</code>{' '}
+            <code style={{ background:'#F3F4F6', padding:'1px 6px', borderRadius:4, fontSize:14 }}>src/pages</code>{' '}
             to activate it.
           </p>
           <div style={{ marginTop:24, display:'flex', gap:8, justifyContent:'center', flexWrap:'wrap' }}>
             {['Phase 1 — Foundation', 'Phase 2 — Core CRM', 'Phase 3 — Delivery'].map(p => (
-              <span key={p} style={{ background:accent+'10', color:accent, fontSize:12, fontWeight:600, padding:'4px 12px', borderRadius:100, border:`1px solid ${accent}25` }}>{p}</span>
+              <span key={p} style={{ background:accent+'10', color:accent, fontSize:14, fontWeight:600, padding:'4px 12px', borderRadius:100, border:`1px solid ${accent}25` }}>{p}</span>
             ))}
           </div>
         </div>

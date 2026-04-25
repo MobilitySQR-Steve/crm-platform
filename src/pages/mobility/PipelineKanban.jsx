@@ -7,7 +7,7 @@ import {
 import { useOpportunities, useUpdateOpportunity, useUsers } from '../../lib/queries';
 import { OPP_STAGE, OPP_STAGE_COLORS, OPP_STAGE_ORDER, initials, fmtMoney, fmtDate } from '../../constants/enums';
 
-const ACCENT = '#8D3B9D';
+const ACCENT = '#2563EB';
 const TERMINAL = new Set(['CLOSED_WON', 'CLOSED_LOST', 'ON_HOLD']);
 
 const fmtCompact = (n) => {
@@ -51,14 +51,14 @@ function DealCard({ opp, stageColor, isDragging, onDragStart, onDragEnd, onClick
         userSelect: 'none', transition: 'opacity 0.15s',
       }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginBottom: 6 }}>
-        <div style={{ width: 22, height: 22, borderRadius: 6, background: stageColor + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: stageColor, flexShrink: 0, marginTop: 1 }}>
+        <div style={{ width: 22, height: 22, borderRadius: 6, background: stageColor + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: stageColor, flexShrink: 0, marginTop: 1 }}>
           {initials(opp.account?.name ?? opp.name)}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: 12, color: '#0F0A1E', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ fontWeight: 700, fontSize: 14, color: '#0F0A1E', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {opp.account?.name ?? '—'}
           </div>
-          <div style={{ fontSize: 10, color: '#9CA3AF', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ fontSize: 12, color: '#9CA3AF', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {opp.name}
           </div>
         </div>
@@ -70,7 +70,7 @@ function DealCard({ opp, stageColor, isDragging, onDragStart, onDragEnd, onClick
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
         <span style={{ fontSize: 15, fontWeight: 800, color: '#0F0A1E', letterSpacing: -0.3 }}>{fmtCompact(opp.amountUsd)}</span>
         {opp.account?.industry && (
-          <span style={{ fontSize: 10, color: '#9CA3AF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginLeft: 8 }}>
+          <span style={{ fontSize: 12, color: '#9CA3AF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginLeft: 8 }}>
             {opp.account.industry}
           </span>
         )}
@@ -80,10 +80,10 @@ function DealCard({ opp, stageColor, isDragging, onDragStart, onDragEnd, onClick
         {close ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, minWidth: 0 }}>
             <Clock size={10} color={close.color} />
-            <span style={{ fontSize: 10, color: close.color, fontWeight: 600, whiteSpace: 'nowrap' }}>{close.text}</span>
+            <span style={{ fontSize: 12, color: close.color, fontWeight: 600, whiteSpace: 'nowrap' }}>{close.text}</span>
           </div>
         ) : opp.expectedCloseDate ? (
-          <span style={{ fontSize: 10, fontWeight: 600, color: opp.stage === 'CLOSED_WON' ? '#38AC87' : '#9CA3AF' }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: opp.stage === 'CLOSED_WON' ? '#38AC87' : '#9CA3AF' }}>
             {opp.stage === 'CLOSED_WON' ? `✓ ${fmtDate(opp.expectedCloseDate)}` : fmtDate(opp.expectedCloseDate)}
           </span>
         ) : <span />}
@@ -92,7 +92,7 @@ function DealCard({ opp, stageColor, isDragging, onDragStart, onDragEnd, onClick
             <div style={{ width: 18, height: 18, borderRadius: '50%', background: stageColor + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, fontWeight: 700, color: stageColor }}>
               {initials(`${opp.owner.firstName} ${opp.owner.lastName}`)}
             </div>
-            <span style={{ fontSize: 10, color: '#9CA3AF' }}>{opp.owner.firstName}</span>
+            <span style={{ fontSize: 12, color: '#9CA3AF' }}>{opp.owner.firstName}</span>
           </div>
         )}
       </div>
@@ -114,9 +114,9 @@ function PipelineColumn({ stageId, label, color, opps, dragging, isOver, onDragO
           <span style={{ fontSize: 10.5, fontWeight: 700, color: '#374151', flex: 1, letterSpacing: 0.4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {label.toUpperCase()}
           </span>
-          <span style={{ background: color + '20', color, fontSize: 10, fontWeight: 700, padding: '1px 7px', borderRadius: 100 }}>{opps.length}</span>
+          <span style={{ background: color + '20', color, fontSize: 12, fontWeight: 700, padding: '1px 7px', borderRadius: 100 }}>{opps.length}</span>
         </div>
-        <div style={{ paddingLeft: 14, marginBottom: 10, fontSize: 10, display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+        <div style={{ paddingLeft: 14, marginBottom: 10, fontSize: 12, display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
           {total > 0 && <span style={{ fontWeight: 700, color: '#374151' }}>{fmtCompact(total)}</span>}
           {closingThisMonth > 0 && <span style={{ color: '#F59E0B', fontWeight: 700 }}>⚡{closingThisMonth} closing</span>}
         </div>
@@ -144,7 +144,7 @@ function PipelineColumn({ stageId, label, color, opps, dragging, isOver, onDragO
           />
         ))}
         {opps.length === 0 && !isOver && (
-          <div style={{ padding: '20px 0', textAlign: 'center', color: '#D1D5DB', fontSize: 11 }}>Drop here</div>
+          <div style={{ padding: '20px 0', textAlign: 'center', color: '#D1D5DB', fontSize: 13 }}>Drop here</div>
         )}
       </div>
     </div>
@@ -164,16 +164,16 @@ function Drawer({ opp, onClose, onMove }) {
       <div style={{ position: 'fixed', right: 0, top: 0, bottom: 0, width: 400, background: 'white', zIndex: 50, boxShadow: '-6px 0 36px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', fontFamily: 'DM Sans, system-ui, -apple-system, sans-serif' }}>
         <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #EDE8F3', background: color + '08', flexShrink: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, color, letterSpacing: 1, textTransform: 'uppercase', background: color + '18', padding: '3px 10px', borderRadius: 100 }}>{OPP_STAGE[opp.stage]}</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color, letterSpacing: 1, textTransform: 'uppercase', background: color + '18', padding: '3px 10px', borderRadius: 100 }}>{OPP_STAGE[opp.stage]}</span>
             <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9CA3AF', display: 'flex' }}><X size={16} /></button>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 10, background: color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color, flexShrink: 0 }}>
+            <div style={{ width: 38, height: 38, borderRadius: 10, background: color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 800, color, flexShrink: 0 }}>
               {initials(opp.account?.name ?? opp.name)}
             </div>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 17, fontWeight: 800, color: '#0F0A1E', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{opp.account?.name ?? '—'}</div>
-              <div style={{ fontSize: 12, color: '#9CA3AF', marginTop: 2 }}>{opp.name}</div>
+              <div style={{ fontSize: 14, color: '#9CA3AF', marginTop: 2 }}>{opp.name}</div>
             </div>
           </div>
         </div>
@@ -181,15 +181,15 @@ function Drawer({ opp, onClose, onMove }) {
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           <div style={{ background: color + '0C', border: `1px solid ${color}20`, borderRadius: 10, padding: '14px 18px', marginBottom: 18, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, textAlign: 'center' }}>
             <div>
-              <div style={{ fontSize: 9, color: '#9CA3AF', fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 4 }}>Amount</div>
+              <div style={{ fontSize: 11, color: '#9CA3AF', fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 4 }}>Amount</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#0F0A1E', lineHeight: 1 }}>{fmtMoney(opp.amountUsd)}</div>
             </div>
             <div>
-              <div style={{ fontSize: 9, color: '#9CA3AF', fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 4 }}>Expected close</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: close?.color ?? '#374151', lineHeight: 1.1 }}>
+              <div style={{ fontSize: 11, color: '#9CA3AF', fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 4 }}>Expected close</div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: close?.color ?? '#374151', lineHeight: 1.1 }}>
                 {opp.expectedCloseDate ? fmtDate(opp.expectedCloseDate) : '—'}
               </div>
-              {close && <div style={{ fontSize: 10, color: close.color, marginTop: 3 }}>{close.text}</div>}
+              {close && <div style={{ fontSize: 12, color: close.color, marginTop: 3 }}>{close.text}</div>}
             </div>
           </div>
 
@@ -201,21 +201,21 @@ function Drawer({ opp, onClose, onMove }) {
               { label: 'HQ',        value: opp.account?.hqCountry ?? '—' },
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', borderBottom: '1px solid #F3F4F6' }}>
-                <span style={{ fontSize: 13, color: '#9CA3AF' }}>{label}</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>{value}</span>
+                <span style={{ fontSize: 15, color: '#9CA3AF' }}>{label}</span>
+                <span style={{ fontSize: 15, fontWeight: 600, color: '#374151' }}>{value}</span>
               </div>
             ))}
           </div>
 
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 10 }}>Move to stage</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#9CA3AF', letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 10 }}>Move to stage</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {OPP_STAGE_ORDER.map(s => {
                 const active = s === opp.stage;
                 const c = OPP_STAGE_COLORS[s];
                 return (
                   <button key={s} onClick={() => onMove(opp.id, s)}
-                    style={{ padding: '4px 11px', borderRadius: 100, border: `1px solid ${active ? c : '#EDE8F3'}`, background: active ? c + '18' : 'white', color: active ? c : '#6B7280', fontSize: 11, fontWeight: active ? 700 : 400, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    style={{ padding: '4px 11px', borderRadius: 100, border: `1px solid ${active ? c : '#EDE8F3'}`, background: active ? c + '18' : 'white', color: active ? c : '#6B7280', fontSize: 13, fontWeight: active ? 700 : 400, cursor: 'pointer', fontFamily: 'inherit' }}>
                     {OPP_STAGE[s]}
                   </button>
                 );
@@ -227,13 +227,13 @@ function Drawer({ opp, onClose, onMove }) {
         <div style={{ padding: '14px 24px', borderTop: '1px solid #EDE8F3', display: 'flex', gap: 10, flexShrink: 0 }}>
           {opp.account && (
             <Link to={`/mobility/accounts/${opp.account.id}`}
-              style={{ flex: 1, padding: '10px', borderRadius: 8, border: '1px solid #EDE8F3', background: 'white', color: '#6B7280', fontSize: 13, fontWeight: 500, cursor: 'pointer', textDecoration: 'none', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              style={{ flex: 1, padding: '10px', borderRadius: 8, border: '1px solid #EDE8F3', background: 'white', color: '#6B7280', fontSize: 15, fontWeight: 500, cursor: 'pointer', textDecoration: 'none', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               Open account <ExternalLink size={11} />
             </Link>
           )}
           {opp.stage !== 'CLOSED_WON' && (
             <button onClick={() => { onMove(opp.id, 'CLOSED_WON'); onClose(); }}
-              style={{ flex: 1, padding: '10px', borderRadius: 8, border: 'none', background: '#38AC87', color: 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+              style={{ flex: 1, padding: '10px', borderRadius: 8, border: 'none', background: '#38AC87', color: 'white', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
               Mark Won ✓
             </button>
           )}
@@ -326,19 +326,19 @@ export default function PipelineKanban() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F7F4FC', border: '1px solid #EDE8F3', borderRadius: 7, padding: '6px 12px', width: 240 }}>
           <Search size={13} color="#9CA3AF" />
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search accounts or deals..."
-            style={{ background: 'none', border: 'none', outline: 'none', fontSize: 13, color: '#374151', width: '100%', fontFamily: 'inherit' }} />
+            style={{ background: 'none', border: 'none', outline: 'none', fontSize: 15, color: '#374151', width: '100%', fontFamily: 'inherit' }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-          <span style={{ fontSize: 11, color: '#9CA3AF', whiteSpace: 'nowrap' }}>Owner:</span>
+          <span style={{ fontSize: 13, color: '#9CA3AF', whiteSpace: 'nowrap' }}>Owner:</span>
           <button onClick={() => setOwnerId('')}
-            style={{ padding: '3px 10px', borderRadius: 100, border: `1px solid ${!ownerId ? ACCENT : '#EDE8F3'}`, background: !ownerId ? ACCENT + '15' : 'white', color: !ownerId ? ACCENT : '#6B7280', fontSize: 11, fontWeight: !ownerId ? 700 : 400, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' }}>
+            style={{ padding: '3px 10px', borderRadius: 100, border: `1px solid ${!ownerId ? ACCENT : '#EDE8F3'}`, background: !ownerId ? ACCENT + '15' : 'white', color: !ownerId ? ACCENT : '#6B7280', fontSize: 13, fontWeight: !ownerId ? 700 : 400, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' }}>
             All
           </button>
           {users.map(u => {
             const active = ownerId === u.id;
             return (
               <button key={u.id} onClick={() => setOwnerId(u.id)}
-                style={{ padding: '3px 10px', borderRadius: 100, border: `1px solid ${active ? ACCENT : '#EDE8F3'}`, background: active ? ACCENT + '15' : 'white', color: active ? ACCENT : '#6B7280', fontSize: 11, fontWeight: active ? 700 : 400, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' }}>
+                style={{ padding: '3px 10px', borderRadius: 100, border: `1px solid ${active ? ACCENT : '#EDE8F3'}`, background: active ? ACCENT + '15' : 'white', color: active ? ACCENT : '#6B7280', fontSize: 13, fontWeight: active ? 700 : 400, cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' }}>
                 {u.firstName}
               </button>
             );
@@ -346,14 +346,14 @@ export default function PipelineKanban() {
         </div>
         <div style={{ flex: 1 }} />
         {isFetching && !isLoading && (
-          <span style={{ fontSize: 11, color: '#9CA3AF', display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 13, color: '#9CA3AF', display: 'flex', alignItems: 'center', gap: 5 }}>
             <Loader2 size={12} className="spin" /> refreshing
           </span>
         )}
       </div>
 
       {/* Stats strip */}
-      <div style={{ height: 38, background: '#F7F4FC', borderBottom: '1px solid #EDE8F3', padding: '0 22px', display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0, fontSize: 12 }}>
+      <div style={{ height: 38, background: '#F7F4FC', borderBottom: '1px solid #EDE8F3', padding: '0 22px', display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0, fontSize: 14 }}>
         <span style={{ color: '#6B7280' }}>Active pipeline <b style={{ color: '#374151' }}>{fmtCompact(totalPipe)}</b></span>
         <span style={{ color: '#D1D5DB' }}>|</span>
         <span style={{ color: '#6B7280' }}>{filtered.length} {filtered.length === 1 ? 'deal' : 'deals'}</span>
@@ -367,7 +367,7 @@ export default function PipelineKanban() {
         </>}
         {(search || ownerId) && <>
           <span style={{ color: '#D1D5DB' }}>|</span>
-          <button onClick={() => { setSearch(''); setOwnerId(''); }} style={{ background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer', fontSize: 11, display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'inherit' }}>
+          <button onClick={() => { setSearch(''); setOwnerId(''); }} style={{ background: 'none', border: 'none', color: '#9CA3AF', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'inherit' }}>
             <X size={10} /> Clear filters
           </button>
         </>}
@@ -375,12 +375,12 @@ export default function PipelineKanban() {
 
       {/* States */}
       {isLoading && (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9CA3AF', fontSize: 13 }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9CA3AF', fontSize: 15 }}>
           <Loader2 size={18} className="spin" style={{ marginRight: 8 }} /> Loading pipeline…
         </div>
       )}
       {isError && (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B91C1C', fontSize: 13 }}>
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B91C1C', fontSize: 15 }}>
           Failed to load pipeline: {error?.message ?? 'unknown error'}
         </div>
       )}

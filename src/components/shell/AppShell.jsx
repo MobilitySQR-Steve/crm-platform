@@ -67,7 +67,7 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
       {/* Logo */}
       <div style={{ height:60, display:'flex', alignItems:'center', padding: collapsed ? '0 17px' : '0 14px 0 17px', justifyContent: collapsed ? 'center' : 'space-between', borderBottom:`1px solid ${SBBORD}`, flexShrink:0 }}>
         <div style={{ display:'flex', alignItems:'center', gap:9 }}>
-          <div style={{ width:30, height:30, borderRadius:8, background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:14, color:'white', flexShrink:0, transition:'background 0.3s' }}>M</div>
+          <div style={{ width:30, height:30, borderRadius:8, background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:16, color:'white', flexShrink:0, transition:'background 0.3s' }}>M</div>
           {!collapsed && <span style={{ color:'white', fontWeight:700, fontSize:13.5, whiteSpace:'nowrap' }}>CRM Platform</span>}
         </div>
         {!collapsed && (
@@ -88,7 +88,7 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
                   <m.Icon size={14} color={moduleKey===m.key ? m.color : 'rgba(255,255,255,0.28)'} />
                 </div>
                 <div style={{ fontSize:10.5, fontWeight: moduleKey===m.key ? 700 : 400, color: moduleKey===m.key ? m.color : 'rgba(255,255,255,0.28)', textAlign:'center', lineHeight:1.2 }}>{m.label}</div>
-                <div style={{ fontSize:9, color: moduleKey===m.key ? m.color : 'rgba(255,255,255,0.18)', textAlign:'center', opacity:0.75, marginTop:1 }}>{m.sublabel}</div>
+                <div style={{ fontSize:11, color: moduleKey===m.key ? m.color : 'rgba(255,255,255,0.18)', textAlign:'center', opacity:0.75, marginTop:1 }}>{m.sublabel}</div>
               </button>
             ))}
           </div>
@@ -118,9 +118,9 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
                 <item.Icon size={15} style={{ flexShrink:0 }} />
                 {!collapsed && (
                   <>
-                    <span style={{ fontSize:13, fontWeight: active ? 600 : 400, flex:1, textAlign:'left' }}>{item.label}</span>
-                    {item.badge  && <span style={{ background:accent, color:'white', fontSize:10, fontWeight:700, padding:'1px 6px', borderRadius:100 }}>{item.badge}</span>}
-                    {item.count  && <span style={{ fontSize:11, color:'rgba(255,255,255,0.18)' }}>{item.count}</span>}
+                    <span style={{ fontSize:15, fontWeight: active ? 600 : 400, flex:1, textAlign:'left' }}>{item.label}</span>
+                    {item.badge  && <span style={{ background:accent, color:'white', fontSize:12, fontWeight:700, padding:'1px 6px', borderRadius:100 }}>{item.badge}</span>}
+                    {item.count  && <span style={{ fontSize:13, color:'rgba(255,255,255,0.18)' }}>{item.count}</span>}
                     {item.sub    && <ChevronDown size={11} color="rgba(255,255,255,0.25)" style={{ transform: open ? 'rotate(180deg)' : 'none', transition:'transform 0.2s', flexShrink:0 }} />}
                   </>
                 )}
@@ -129,7 +129,7 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
                 <div style={{ paddingLeft:14, marginTop:2, marginBottom:2 }}>
                   {item.sub.map(s => (
                     <Link key={s.id} to={s.path}
-                      style={{ display:'flex', alignItems:'center', gap:8, padding:'6px 10px', borderRadius:6, marginBottom:1, background: path===s.path ? accent+'15' : 'transparent', color: path===s.path ? accent : 'rgba(255,255,255,0.28)', fontSize:12, fontWeight: path===s.path ? 600 : 400 }}>
+                      style={{ display:'flex', alignItems:'center', gap:8, padding:'6px 10px', borderRadius:6, marginBottom:1, background: path===s.path ? accent+'15' : 'transparent', color: path===s.path ? accent : 'rgba(255,255,255,0.28)', fontSize:14, fontWeight: path===s.path ? 600 : 400 }}>
                       <div style={{ width:4, height:4, borderRadius:'50%', background:'currentColor', opacity:0.55, flexShrink:0 }} />
                       {s.label}
                     </Link>
@@ -150,7 +150,7 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
               <ChevronRight size={14} />
             </button>
             <div title={displayName}
-              style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:'white', transition:'background 0.3s' }}>
+              style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, color:'white', transition:'background 0.3s' }}>
               {initials}
             </div>
             {user && (
@@ -164,20 +164,20 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
           <>
             {user ? (
               <button onClick={handleLogout} disabled={isLoggingOut}
-                style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.42)', marginBottom:2, fontSize:13, cursor: isLoggingOut ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: isLoggingOut ? 0.5 : 1 }}>
+                style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.42)', marginBottom:2, fontSize:15, cursor: isLoggingOut ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: isLoggingOut ? 0.5 : 1 }}>
                 <LogOut size={14} /> {isLoggingOut ? 'Signing out…' : 'Sign out'}
               </button>
             ) : (
               <button
-                style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.28)', marginBottom:2, fontSize:13, cursor:'pointer', fontFamily: 'inherit' }}>
+                style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.28)', marginBottom:2, fontSize:15, cursor:'pointer', fontFamily: 'inherit' }}>
                 <Settings size={14} /> Settings
               </button>
             )}
             <div style={{ display:'flex', alignItems:'center', gap:9, padding:'7px 8px' }}>
-              <div style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>{initials}</div>
+              <div style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>{initials}</div>
               <div style={{ minWidth:0, flex:1 }}>
-                <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.82)', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{displayName}</div>
-                <div style={{ fontSize:10, color:'rgba(255,255,255,0.28)' }}>{displayRole}</div>
+                <div style={{ fontSize:14, fontWeight:600, color:'rgba(255,255,255,0.82)', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{displayName}</div>
+                <div style={{ fontSize:12, color:'rgba(255,255,255,0.28)' }}>{displayRole}</div>
               </div>
             </div>
           </>
@@ -197,7 +197,7 @@ function TopBar({ breadcrumb, accent }) {
     <div style={{ height:56, background:'white', borderBottom:'1px solid #ECEAF3', padding:'0 22px', display:'flex', alignItems:'center', gap:12, flexShrink:0, position:'relative', zIndex:10 }}>
       <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${accent}70,transparent 40%)`, transition:'background 0.3s' }} />
       {/* Breadcrumb */}
-      <div style={{ display:'flex', alignItems:'center', gap:5, flex:1, fontSize:13, minWidth:0 }}>
+      <div style={{ display:'flex', alignItems:'center', gap:5, flex:1, fontSize:15, minWidth:0 }}>
         {breadcrumb.map((crumb, i) => (
           <span key={i} style={{ display:'flex', alignItems:'center', gap:5, whiteSpace:'nowrap' }}>
             {i > 0 && <ChevronRight size={12} color="#D1D5DB" style={{ flexShrink:0 }} />}
@@ -208,8 +208,8 @@ function TopBar({ breadcrumb, accent }) {
       {/* Search */}
       <div style={{ display:'flex', alignItems:'center', gap:7, background:'#F7F5FC', border:'1px solid #ECEAF3', borderRadius:8, padding:'7px 12px', minWidth:180, cursor:'pointer' }}>
         <Search size={13} color="#9CA3AF" />
-        <span style={{ fontSize:13, color:'#C4C0D4', flex:1 }}>Search...</span>
-        <kbd style={{ fontSize:10, color:'#C4C0D4', background:'white', border:'1px solid #ECEAF3', borderRadius:4, padding:'1px 5px' }}>⌘K</kbd>
+        <span style={{ fontSize:15, color:'#C4C0D4', flex:1 }}>Search...</span>
+        <kbd style={{ fontSize:12, color:'#C4C0D4', background:'white', border:'1px solid #ECEAF3', borderRadius:4, padding:'1px 5px' }}>⌘K</kbd>
       </div>
       {/* Bell */}
       <button style={{ position:'relative', background:'none', border:'none', cursor:'pointer', padding:7, borderRadius:7, display:'flex', color:'#9CA3AF' }}>
@@ -217,7 +217,7 @@ function TopBar({ breadcrumb, accent }) {
         <span style={{ position:'absolute', top:5, right:5, width:7, height:7, background:'#EF4444', borderRadius:'50%', border:'1.5px solid white' }} />
       </button>
       {/* User avatar */}
-      <div style={{ width:32, height:32, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>{initials}</div>
+      <div style={{ width:32, height:32, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>{initials}</div>
     </div>
   );
 }

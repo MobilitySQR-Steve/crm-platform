@@ -3,7 +3,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { ApiError } from '../../lib/api';
 
-const ACCENT = '#8D3B9D'; // mobility purple
+const ACCENT = '#2563EB'; // mobility accent
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -60,13 +60,13 @@ export default function Login() {
             color: 'white', fontWeight: 800, fontSize: 16,
           }}>M</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F0A1E', lineHeight: 1.2 }}>CRM Platform</div>
-            <div style={{ fontSize: 11, color: '#9CA3AF' }}>MobilitySQR</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#0F0A1E', lineHeight: 1.2 }}>CRM Platform</div>
+            <div style={{ fontSize: 13, color: '#9CA3AF' }}>MobilitySQR</div>
           </div>
         </div>
 
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#0F0A1E', margin: 0, marginBottom: 6 }}>Sign in</h1>
-        <p style={{ fontSize: 13, color: '#6B7280', margin: 0, marginBottom: 22 }}>
+        <p style={{ fontSize: 15, color: '#6B7280', margin: 0, marginBottom: 22 }}>
           Welcome back. Enter your credentials below.
         </p>
 
@@ -81,7 +81,7 @@ export default function Login() {
               color: '#B91C1C',
               borderRadius: 8,
               padding: '8px 12px',
-              fontSize: 12,
+              fontSize: 14,
               marginBottom: 14,
             }}>
               {error}
@@ -98,7 +98,7 @@ export default function Login() {
               color: 'white',
               border: 'none',
               borderRadius: 9,
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: 600,
               cursor: isLoggingIn || !email || !password ? 'not-allowed' : 'pointer',
               opacity: isLoggingIn || !email || !password ? 0.6 : 1,
@@ -116,7 +116,7 @@ export default function Login() {
 function Field({ label, type, value, onChange, autoFocus, disabled, autoComplete }) {
   return (
     <div style={{ marginBottom: 14 }}>
-      <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 5 }}>
+      <label style={{ display: 'block', fontSize: 14, fontWeight: 600, color: '#374151', marginBottom: 5 }}>
         {label}
       </label>
       <input
@@ -129,7 +129,7 @@ function Field({ label, type, value, onChange, autoFocus, disabled, autoComplete
         style={{
           width: '100%',
           padding: '10px 12px',
-          fontSize: 14,
+          fontSize: 16,
           border: '1px solid #ECEAF3',
           borderRadius: 8,
           background: disabled ? '#F9F8FC' : 'white',

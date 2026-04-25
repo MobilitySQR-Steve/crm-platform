@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 export const BRAND = {
-  purple:   '#8D3B9D',
+  purple:   '#2563EB',
   orange:   '#F9B878',
   teal:     '#00BFE6',
   green:    '#38AC87',
@@ -38,7 +38,7 @@ export const MODULES = {
     key:      'mobility',
     label:    'MobilitySQR',
     sublabel: 'B2B · Enterprise',
-    color:    '#8D3B9D',
+    color:    '#2563EB',
     colorBg:  'rgba(141,59,157,0.15)',
     Icon:     Globe,
     basePath: '/mobility',

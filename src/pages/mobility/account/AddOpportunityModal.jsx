@@ -58,7 +58,7 @@ export default function AddOpportunityModal({ open, onClose, accountId }) {
             {users.map(u => <option key={u.id} value={u.id}>{u.firstName} {u.lastName}</option>)}
           </SelRaw>
         </Row>
-        {error && <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', borderRadius: 8, padding: '8px 12px', fontSize: 12, marginTop: 6 }}>{error}</div>}
+        {error && <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', borderRadius: 8, padding: '8px 12px', fontSize: 14, marginTop: 6 }}>{error}</div>}
       </form>
     </Modal>
   );

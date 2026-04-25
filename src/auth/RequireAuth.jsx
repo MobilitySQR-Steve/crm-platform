@@ -13,7 +13,7 @@ export default function RequireAuth() {
         alignItems: 'center',
         justifyContent: 'center',
         color: '#9CA3AF',
-        fontSize: 13,
+        fontSize: 15,
       }}>
         Loading…
       </div>

@@ -11,9 +11,9 @@ function StatCard({ label, value, sub, color, Icon }) {
     <div style={{ background:'white', borderRadius:12, padding:'18px 20px', border:'1px solid #ECEAF3', flex:1, minWidth:0 }}>
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:8 }}>
         <div style={{ minWidth:0 }}>
-          <div style={{ fontSize:11, color:'#9CA3AF', marginBottom:8, fontWeight:500, letterSpacing:0.5, textTransform:'uppercase' }}>{label}</div>
+          <div style={{ fontSize:13, color:'#9CA3AF', marginBottom:8, fontWeight:500, letterSpacing:0.5, textTransform:'uppercase' }}>{label}</div>
           <div style={{ fontSize:26, fontWeight:700, color:'#0F0A1E', lineHeight:1 }}>{value}</div>
-          {sub && <div style={{ fontSize:11, color:'#9CA3AF', marginTop:5 }}>{sub}</div>}
+          {sub && <div style={{ fontSize:13, color:'#9CA3AF', marginTop:5 }}>{sub}</div>}
         </div>
         <div style={{ width:38, height:38, borderRadius:10, background:color+'18', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
           <Icon size={17} color={color} />
@@ -30,7 +30,7 @@ const RECENT = [
   { name:'Maria Santos',   year:'2024', status:'filing',          due:'Apr 18', fee:'$950'   },
   { name:'James Chen',     year:'2023', status:'completed',       due:'—',      fee:'$780'   },
 ];
-const SC = { preparation:'#8C78FF', review:'#8D3B9D', doc_collection:'#F59E0B', filing:'#3B82F6', completed:'#38AC87' };
+const SC = { preparation:'#8C78FF', review:'#2563EB', doc_collection:'#F59E0B', filing:'#3B82F6', completed:'#38AC87' };
 const SL = { preparation:'Preparation', review:'Review', doc_collection:'Doc Collection', filing:'Filing', completed:'Completed' };
 const STAGES = [
   { l:'Onboarding', n:8 }, { l:'Doc Collection', n:14 },
@@ -46,9 +46,9 @@ export default function TaxDashboard() {
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:22 }}>
           <div>
             <h1 style={{ fontSize:20, fontWeight:700, color:'#0F0A1E', margin:0 }}>Dashboard</h1>
-            <div style={{ fontSize:12, color:'#9CA3AF', marginTop:3 }}>TaxSQR · D2C · Tax Services</div>
+            <div style={{ fontSize:14, color:'#9CA3AF', marginTop:3 }}>TaxSQR · D2C · Tax Services</div>
           </div>
-          <Link to="/taxsqr/clients" style={{ display:'flex', alignItems:'center', gap:6, padding:'9px 18px', background:ACCENT, color:'white', borderRadius:8, fontSize:13, fontWeight:600, textDecoration:'none' }}>
+          <Link to="/taxsqr/clients" style={{ display:'flex', alignItems:'center', gap:6, padding:'9px 18px', background:ACCENT, color:'white', borderRadius:8, fontSize:15, fontWeight:600, textDecoration:'none' }}>
             <Plus size={14} /> New Client
           </Link>
         </div>
@@ -64,10 +64,10 @@ export default function TaxDashboard() {
         <div style={{ display:'grid', gridTemplateColumns:'280px 1fr', gap:14 }}>
           {/* Stage bars */}
           <div style={{ background:'white', borderRadius:12, padding:20, border:'1px solid #ECEAF3' }}>
-            <div style={{ fontSize:13, fontWeight:600, color:'#0F0A1E', marginBottom:16 }}>Cases by Stage</div>
+            <div style={{ fontSize:15, fontWeight:600, color:'#0F0A1E', marginBottom:16 }}>Cases by Stage</div>
             {STAGES.map(s => (
               <div key={s.l} style={{ marginBottom:11 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5, fontSize:12 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5, fontSize:14 }}>
                   <span style={{ color:'#6B7280' }}>{s.l}</span>
                   <span style={{ fontWeight:600, color:'#374151' }}>{s.n}</span>
                 </div>
@@ -81,16 +81,16 @@ export default function TaxDashboard() {
           {/* Recent cases */}
           <div style={{ background:'white', borderRadius:12, padding:20, border:'1px solid #ECEAF3' }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
-              <div style={{ fontSize:13, fontWeight:600, color:'#0F0A1E' }}>Recent Cases</div>
-              <Link to="/taxsqr/cases/kanban" style={{ fontSize:12, color:ACCENT, fontWeight:500, display:'flex', alignItems:'center', gap:3 }}>
+              <div style={{ fontSize:15, fontWeight:600, color:'#0F0A1E' }}>Recent Cases</div>
+              <Link to="/taxsqr/cases/kanban" style={{ fontSize:14, color:ACCENT, fontWeight:500, display:'flex', alignItems:'center', gap:3 }}>
                 View all <ChevronRight size={12} />
               </Link>
             </div>
-            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13 }}>
+            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:15 }}>
               <thead>
                 <tr>
                   {['Client','Year','Status','Due','Fee'].map(h => (
-                    <th key={h} style={{ textAlign:'left', padding:'0 8px 10px', color:'#9CA3AF', fontWeight:500, fontSize:11, letterSpacing:0.5, textTransform:'uppercase' }}>{h}</th>
+                    <th key={h} style={{ textAlign:'left', padding:'0 8px 10px', color:'#9CA3AF', fontWeight:500, fontSize:13, letterSpacing:0.5, textTransform:'uppercase' }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -100,9 +100,9 @@ export default function TaxDashboard() {
                     <td style={{ padding:'10px 8px', fontWeight:500, color:'#0F0A1E' }}>{r.name}</td>
                     <td style={{ padding:'10px 8px', color:'#6B7280' }}>{r.year}</td>
                     <td style={{ padding:'10px 8px' }}>
-                      <span style={{ padding:'3px 9px', borderRadius:100, fontSize:11, fontWeight:600, background:(SC[r.status]||'#9CA3AF')+'18', color:SC[r.status]||'#9CA3AF' }}>{SL[r.status]||r.status}</span>
+                      <span style={{ padding:'3px 9px', borderRadius:100, fontSize:13, fontWeight:600, background:(SC[r.status]||'#9CA3AF')+'18', color:SC[r.status]||'#9CA3AF' }}>{SL[r.status]||r.status}</span>
                     </td>
-                    <td style={{ padding:'10px 8px', color:'#9CA3AF', fontSize:12 }}>{r.due}</td>
+                    <td style={{ padding:'10px 8px', color:'#9CA3AF', fontSize:14 }}>{r.due}</td>
                     <td style={{ padding:'10px 8px', fontWeight:600, color:'#374151' }}>{r.fee}</td>
                   </tr>
                 ))}
@@ -118,7 +118,7 @@ export default function TaxDashboard() {
             { label:'View All Clients',  path:'/taxsqr/clients',      color:'#6B7280' },
           ].map(l => (
             <Link key={l.label} to={l.path}
-              style={{ display:'flex', alignItems:'center', gap:6, padding:'10px 18px', background:'white', border:'1px solid #ECEAF3', borderRadius:8, fontSize:13, fontWeight:500, color:l.color, textDecoration:'none' }}>
+              style={{ display:'flex', alignItems:'center', gap:6, padding:'10px 18px', background:'white', border:'1px solid #ECEAF3', borderRadius:8, fontSize:15, fontWeight:500, color:l.color, textDecoration:'none' }}>
               {l.label} <ChevronRight size={13} />
             </Link>
           ))}

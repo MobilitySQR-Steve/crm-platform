@@ -7,7 +7,7 @@ import {
 import { useAccounts, useOpportunities } from '../../lib/queries';
 import { OPP_STAGE, OPP_STAGE_COLORS, OPP_STAGE_ORDER, fmtMoney } from '../../constants/enums';
 
-const ACCENT = '#8D3B9D';
+const ACCENT = '#2563EB';
 const TERMINAL = new Set(['CLOSED_WON', 'CLOSED_LOST', 'ON_HOLD']);
 
 // Pipeline stages we visualize (active funnel — terminal/paused excluded).
@@ -26,11 +26,11 @@ function StatCard({ label, value, sub, color, Icon, loading }) {
     <div style={{ background: 'white', borderRadius: 12, padding: '18px 20px', border: '1px solid #EDE8F3', flex: 1, minWidth: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 11, color: '#9CA3AF', marginBottom: 8, fontWeight: 500, letterSpacing: 0.5, textTransform: 'uppercase' }}>{label}</div>
+          <div style={{ fontSize: 13, color: '#9CA3AF', marginBottom: 8, fontWeight: 500, letterSpacing: 0.5, textTransform: 'uppercase' }}>{label}</div>
           <div style={{ fontSize: 26, fontWeight: 700, color: '#0F0A1E', lineHeight: 1 }}>
             {loading ? <Loader2 size={18} className="spin" color="#C4C0D4" /> : value}
           </div>
-          {sub && !loading && <div style={{ fontSize: 11, color: '#9CA3AF', marginTop: 5 }}>{sub}</div>}
+          {sub && !loading && <div style={{ fontSize: 13, color: '#9CA3AF', marginTop: 5 }}>{sub}</div>}
         </div>
         <div style={{ width: 38, height: 38, borderRadius: 10, background: color + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <Icon size={17} color={color} />
@@ -84,10 +84,10 @@ export default function MobilityDashboard() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
           <div>
             <h1 style={{ fontSize: 20, fontWeight: 700, color: '#0F0A1E', margin: 0 }}>Dashboard</h1>
-            <div style={{ fontSize: 12, color: '#9CA3AF', marginTop: 3 }}>MobilitySQR · B2B Sales Pipeline</div>
+            <div style={{ fontSize: 14, color: '#9CA3AF', marginTop: 3 }}>MobilitySQR · B2B Sales Pipeline</div>
           </div>
           <Link to="/mobility/accounts/new"
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: ACCENT, color: 'white', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: ACCENT, color: 'white', borderRadius: 8, fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
             <Plus size={14} /> New Account
           </Link>
         </div>
@@ -103,20 +103,20 @@ export default function MobilityDashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 14 }}>
           {/* Pipeline by stage */}
           <div style={{ background: 'white', borderRadius: 12, padding: 20, border: '1px solid #EDE8F3' }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#0F0A1E', marginBottom: 16 }}>Pipeline by Stage</div>
+            <div style={{ fontSize: 15, fontWeight: 600, color: '#0F0A1E', marginBottom: 16 }}>Pipeline by Stage</div>
             {loadingOpps ? (
               <Skeleton lines={5} />
             ) : stats.byStage.every(s => s.count === 0) ? (
-              <div style={{ fontSize: 12, color: '#9CA3AF', textAlign: 'center', padding: '20px 0' }}>
+              <div style={{ fontSize: 14, color: '#9CA3AF', textAlign: 'center', padding: '20px 0' }}>
                 No active opportunities yet.
                 <div style={{ marginTop: 8 }}>
-                  <Link to="/mobility/pipeline/kanban" style={{ color: ACCENT, fontSize: 12, fontWeight: 500, textDecoration: 'none' }}>Open kanban →</Link>
+                  <Link to="/mobility/pipeline/kanban" style={{ color: ACCENT, fontSize: 14, fontWeight: 500, textDecoration: 'none' }}>Open kanban →</Link>
                 </div>
               </div>
             ) : (
               stats.byStage.map(s => (
                 <div key={s.stage} style={{ marginBottom: 12 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5, fontSize: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5, fontSize: 14 }}>
                     <span style={{ color: '#6B7280' }}>{OPP_STAGE[s.stage]}</span>
                     <div style={{ display: 'flex', gap: 8 }}>
                       <span style={{ color: '#9CA3AF' }}>{s.count}</span>
@@ -139,23 +139,23 @@ export default function MobilityDashboard() {
           {/* Recent active opps */}
           <div style={{ background: 'white', borderRadius: 12, padding: 20, border: '1px solid #EDE8F3' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: '#0F0A1E' }}>Recent Active Opportunities</div>
-              <Link to="/mobility/pipeline/kanban" style={{ fontSize: 12, color: ACCENT, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 3, textDecoration: 'none' }}>
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#0F0A1E' }}>Recent Active Opportunities</div>
+              <Link to="/mobility/pipeline/kanban" style={{ fontSize: 14, color: ACCENT, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 3, textDecoration: 'none' }}>
                 View pipeline <ChevronRight size={12} />
               </Link>
             </div>
             {loadingOpps ? (
               <Skeleton lines={5} />
             ) : stats.recent.length === 0 ? (
-              <div style={{ fontSize: 12, color: '#9CA3AF', textAlign: 'center', padding: '24px 0' }}>
+              <div style={{ fontSize: 14, color: '#9CA3AF', textAlign: 'center', padding: '24px 0' }}>
                 No opportunities yet — open an account and click "New Opportunity".
               </div>
             ) : (
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
                 <thead>
                   <tr>
                     {['Account', 'Stage', 'Amount', 'Owner'].map(h => (
-                      <th key={h} style={{ textAlign: 'left', padding: '0 8px 10px', color: '#9CA3AF', fontWeight: 500, fontSize: 11, letterSpacing: 0.5, textTransform: 'uppercase' }}>{h}</th>
+                      <th key={h} style={{ textAlign: 'left', padding: '0 8px 10px', color: '#9CA3AF', fontWeight: 500, fontSize: 13, letterSpacing: 0.5, textTransform: 'uppercase' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -169,15 +169,15 @@ export default function MobilityDashboard() {
                             style={{ fontWeight: 500, color: '#0F0A1E', textDecoration: 'none' }}>
                             {o.account?.name ?? '—'}
                           </Link>
-                          <div style={{ fontSize: 11, color: '#9CA3AF', marginTop: 1 }}>{o.name}</div>
+                          <div style={{ fontSize: 13, color: '#9CA3AF', marginTop: 1 }}>{o.name}</div>
                         </td>
                         <td style={{ padding: '10px 8px' }}>
-                          <span style={{ padding: '3px 9px', borderRadius: 100, fontSize: 11, fontWeight: 600, background: color + '18', color }}>
+                          <span style={{ padding: '3px 9px', borderRadius: 100, fontSize: 13, fontWeight: 600, background: color + '18', color }}>
                             {OPP_STAGE[o.stage]}
                           </span>
                         </td>
                         <td style={{ padding: '10px 8px', fontWeight: 600, color: '#374151' }}>{fmtMoney(o.amountUsd)}</td>
-                        <td style={{ padding: '10px 8px', color: '#6B7280', fontSize: 12 }}>
+                        <td style={{ padding: '10px 8px', color: '#6B7280', fontSize: 14 }}>
                           {o.owner ? `${o.owner.firstName} ${o.owner.lastName}` : '—'}
                         </td>
                       </tr>
@@ -196,7 +196,7 @@ export default function MobilityDashboard() {
             { label: 'View All Accounts',    path: '/mobility/accounts',         color: '#6B7280' },
           ].map(l => (
             <Link key={l.label} to={l.path}
-              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', background: 'white', border: '1px solid #EDE8F3', borderRadius: 8, fontSize: 13, fontWeight: 500, color: l.color, textDecoration: 'none' }}>
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', background: 'white', border: '1px solid #EDE8F3', borderRadius: 8, fontSize: 15, fontWeight: 500, color: l.color, textDecoration: 'none' }}>
               {l.label} <ChevronRight size={13} />
             </Link>
           ))}

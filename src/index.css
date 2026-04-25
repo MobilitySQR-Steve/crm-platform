@@ -1,7 +1,7 @@
 /* ── Brand tokens ──────────────────────────────────────────── */
 :root {
-  --purple:        #8D3B9D;
-  --purple-light:  #963FA6;
+  --purple:        #2563EB;
+  --purple-light:  #3B82F6;
   --orange:        #F9B878;
   --teal:          #00BFE6;
   --green:         #38AC87;
@@ -39,7 +39,7 @@ html, body, #root {
 
 body {
   font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;

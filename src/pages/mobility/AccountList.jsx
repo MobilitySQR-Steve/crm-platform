@@ -7,7 +7,7 @@ import {
   EMPLOYEE_BAND, MOVES_BAND, initials,
 } from '../../constants/enums';
 
-const ACCENT = '#8D3B9D';
+const ACCENT = '#2563EB';
 
 // Tiny hook so the API isn't hit on every keystroke.
 function useDebounced(value, delay = 300) {
@@ -49,13 +49,13 @@ export default function AccountList() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <div>
             <h1 style={{ fontSize: 20, fontWeight: 700, color: '#0F0A1E', margin: 0 }}>Accounts</h1>
-            <div style={{ fontSize: 12, color: '#9CA3AF', marginTop: 3 }}>
+            <div style={{ fontSize: 14, color: '#9CA3AF', marginTop: 3 }}>
               MobilitySQR · {isLoading ? '…' : `${total} ${total === 1 ? 'account' : 'accounts'}`}
               {isFetching && !isLoading && <span style={{ marginLeft: 8, color: '#9CA3AF' }}>refreshing…</span>}
             </div>
           </div>
           <Link to="/mobility/accounts/new"
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: ACCENT, color: 'white', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: ACCENT, color: 'white', borderRadius: 8, fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
             <Plus size={14} /> New Account
           </Link>
         </div>
@@ -68,7 +68,7 @@ export default function AccountList() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by account, domain, or industry..."
-              style={{ background: 'none', border: 'none', outline: 'none', fontSize: 13, color: '#374151', width: '100%', fontFamily: 'inherit' }}
+              style={{ background: 'none', border: 'none', outline: 'none', fontSize: 15, color: '#374151', width: '100%', fontFamily: 'inherit' }}
             />
           </div>
           <FilterSelect value={pursuit} onChange={setPursuit} label="All statuses">
@@ -88,7 +88,7 @@ export default function AccountList() {
           </FilterSelect>
           {hasFilters && (
             <button onClick={() => { setSearch(''); setPursuit(''); setSource(''); setOwnerId(''); }}
-              style={{ padding: '8px 12px', background: 'white', border: '1px solid #EDE8F3', borderRadius: 8, fontSize: 12, color: '#6B7280', cursor: 'pointer', fontFamily: 'inherit' }}>
+              style={{ padding: '8px 12px', background: 'white', border: '1px solid #EDE8F3', borderRadius: 8, fontSize: 14, color: '#6B7280', cursor: 'pointer', fontFamily: 'inherit' }}>
               Clear filters
             </button>
           )}
@@ -97,7 +97,7 @@ export default function AccountList() {
         {/* States */}
         {isLoading && <Centered><Loader2 size={20} className="spin" color="#9CA3AF" /></Centered>}
         {isError && <Centered>
-          <div style={{ color: '#B91C1C', fontSize: 13 }}>
+          <div style={{ color: '#B91C1C', fontSize: 15 }}>
             Failed to load accounts: {error?.message ?? 'unknown error'}
           </div>
         </Centered>}
@@ -109,11 +109,11 @@ export default function AccountList() {
               <EmptyState hasFilters={hasFilters} />
             ) : (
               <>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
                   <thead>
                     <tr style={{ borderBottom: '1px solid #EDE8F3' }}>
                       {['Account', 'HQ / Industry', 'Employees', 'Moves / yr', 'Status', 'Owner', ''].map(h => (
-                        <th key={h} style={{ textAlign: 'left', padding: '11px 16px', color: '#9CA3AF', fontWeight: 500, fontSize: 11, letterSpacing: 0.5, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{h}</th>
+                        <th key={h} style={{ textAlign: 'left', padding: '11px 16px', color: '#9CA3AF', fontWeight: 500, fontSize: 13, letterSpacing: 0.5, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -127,25 +127,25 @@ export default function AccountList() {
                       >
                         <td style={{ padding: '12px 16px' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                            <div style={{ width: 32, height: 32, borderRadius: 8, background: ACCENT + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: ACCENT, flexShrink: 0 }}>
+                            <div style={{ width: 32, height: 32, borderRadius: 8, background: ACCENT + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: ACCENT, flexShrink: 0 }}>
                               {initials(a.name)}
                             </div>
                             <div style={{ minWidth: 0 }}>
                               <div style={{ fontWeight: 600, color: '#0F0A1E', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.name}</div>
-                              <div style={{ fontSize: 11, color: '#9CA3AF' }}>{a.domain || '—'}</div>
+                              <div style={{ fontSize: 13, color: '#9CA3AF' }}>{a.domain || '—'}</div>
                             </div>
                           </div>
                         </td>
-                        <td style={{ padding: '12px 16px', fontSize: 12, color: '#6B7280' }}>
+                        <td style={{ padding: '12px 16px', fontSize: 14, color: '#6B7280' }}>
                           <div style={{ color: '#374151' }}>{a.hqCountry || '—'}</div>
-                          <div style={{ color: '#9CA3AF', fontSize: 11 }}>{a.industry || '—'}</div>
+                          <div style={{ color: '#9CA3AF', fontSize: 13 }}>{a.industry || '—'}</div>
                         </td>
-                        <td style={{ padding: '12px 16px', color: '#374151', fontSize: 12 }}>{EMPLOYEE_BAND[a.employeeBand]}</td>
-                        <td style={{ padding: '12px 16px', color: '#374151', fontSize: 12 }}>{MOVES_BAND[a.crossBorderMovesBand]}</td>
+                        <td style={{ padding: '12px 16px', color: '#374151', fontSize: 14 }}>{EMPLOYEE_BAND[a.employeeBand]}</td>
+                        <td style={{ padding: '12px 16px', color: '#374151', fontSize: 14 }}>{MOVES_BAND[a.crossBorderMovesBand]}</td>
                         <td style={{ padding: '12px 16px' }}>
                           <Pill label={PURSUIT_STATUS[a.pursuitStatus]} color={PURSUIT_COLORS[a.pursuitStatus]} />
                         </td>
-                        <td style={{ padding: '12px 16px', color: '#6B7280', fontSize: 12 }}>
+                        <td style={{ padding: '12px 16px', color: '#6B7280', fontSize: 14 }}>
                           {a.owner ? `${a.owner.firstName} ${a.owner.lastName}` : '—'}
                         </td>
                         <td style={{ padding: '12px 16px' }}>
@@ -158,7 +158,7 @@ export default function AccountList() {
                     ))}
                   </tbody>
                 </table>
-                <div style={{ padding: '12px 16px', borderTop: '1px solid #EDE8F3', fontSize: 12, color: '#9CA3AF' }}>
+                <div style={{ padding: '12px 16px', borderTop: '1px solid #EDE8F3', fontSize: 14, color: '#9CA3AF' }}>
                   Showing {items.length} of {total} {total === 1 ? 'account' : 'accounts'}
                 </div>
               </>
@@ -182,7 +182,7 @@ function FilterSelect({ value, onChange, label, children }) {
         background: 'white',
         border: '1px solid #EDE8F3',
         borderRadius: 8,
-        fontSize: 12,
+        fontSize: 14,
         color: value ? '#374151' : '#9CA3AF',
         cursor: 'pointer',
         fontFamily: 'inherit',
@@ -196,7 +196,7 @@ function FilterSelect({ value, onChange, label, children }) {
 
 function Pill({ label, color }) {
   return (
-    <span style={{ padding: '3px 10px', borderRadius: 100, fontSize: 11, fontWeight: 600, background: color + '18', color, whiteSpace: 'nowrap' }}>
+    <span style={{ padding: '3px 10px', borderRadius: 100, fontSize: 13, fontWeight: 600, background: color + '18', color, whiteSpace: 'nowrap' }}>
       {label}
     </span>
   );
@@ -212,14 +212,14 @@ function Centered({ children }) {
 
 function EmptyState({ hasFilters }) {
   return (
-    <div style={{ padding: '60px 20px', textAlign: 'center', color: '#9CA3AF', fontSize: 13 }}>
+    <div style={{ padding: '60px 20px', textAlign: 'center', color: '#9CA3AF', fontSize: 15 }}>
       {hasFilters ? (
         <>No accounts match the current filters.</>
       ) : (
         <>
           <div style={{ marginBottom: 12 }}>No accounts yet.</div>
           <Link to="/mobility/accounts/new"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: ACCENT, color: 'white', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 18px', background: ACCENT, color: 'white', borderRadius: 8, fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
             <Plus size={14} /> Create your first account
           </Link>
         </>

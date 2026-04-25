@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
 
-const ACCENT = '#8D3B9D';
+const ACCENT = '#2563EB';
 
 export default function Modal({ open, onClose, title, children, footer, maxWidth = 480 }) {
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Modal({ open, onClose, title, children, footer, maxWidth
 export const modalInputStyle = (disabled) => ({
   width: '100%',
   padding: '9px 12px',
-  fontSize: 13,
+  fontSize: 15,
   border: '1px solid #ECEAF3',
   borderRadius: 8,
   background: disabled ? '#F9F8FC' : 'white',
@@ -61,18 +61,18 @@ export const modalInputStyle = (disabled) => ({
   boxSizing: 'border-box',
 });
 
-export const modalLabelStyle = { display: 'block', fontSize: 11, fontWeight: 600, color: '#6B7280', marginBottom: 5 };
+export const modalLabelStyle = { display: 'block', fontSize: 13, fontWeight: 600, color: '#6B7280', marginBottom: 5 };
 
 export const primaryBtn = (busy) => ({
   display: 'flex', alignItems: 'center', gap: 6,
   padding: '8px 16px', background: ACCENT, color: 'white',
-  border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600,
+  border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600,
   cursor: busy ? 'not-allowed' : 'pointer', opacity: busy ? 0.6 : 1,
   fontFamily: 'inherit',
 });
 
 export const secondaryBtn = {
   padding: '8px 14px', background: 'white', border: '1px solid #ECEAF3',
-  borderRadius: 8, fontSize: 13, color: '#6B7280', cursor: 'pointer',
+  borderRadius: 8, fontSize: 15, color: '#6B7280', cursor: 'pointer',
   fontFamily: 'inherit',
 };

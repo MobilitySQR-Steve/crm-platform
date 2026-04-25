@@ -8,7 +8,7 @@ import {
   EMPLOYEE_BAND, MOVES_BAND, TRIGGER_EVENT, PURSUIT_STATUS, ACCOUNT_SOURCE,
 } from '../../constants/enums';
 
-const ACCENT = '#8D3B9D';
+const ACCENT = '#2563EB';
 
 const EMPTY = {
   name: '', domain: '', website: '', linkedinUrl: '',
@@ -121,7 +121,7 @@ export default function AccountForm() {
   }
 
   if (isEdit && loadingAccount) {
-    return <div style={{ padding: 40, color: '#9CA3AF', fontSize: 13 }}>Loading…</div>;
+    return <div style={{ padding: 40, color: '#9CA3AF', fontSize: 15 }}>Loading…</div>;
   }
 
   return (
@@ -130,13 +130,13 @@ export default function AccountForm() {
         {/* Header */}
         <div style={{ marginBottom: 18 }}>
           <Link to={isEdit ? `/mobility/accounts/${id}` : '/mobility/accounts'}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#6B7280', fontSize: 12, textDecoration: 'none', marginBottom: 12 }}>
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#6B7280', fontSize: 14, textDecoration: 'none', marginBottom: 12 }}>
             <ArrowLeft size={13} /> {isEdit ? 'Back to account' : 'Back to accounts'}
           </Link>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: '#0F0A1E', margin: 0 }}>
             {isEdit ? 'Edit account' : 'New account'}
           </h1>
-          <div style={{ fontSize: 12, color: '#9CA3AF', marginTop: 4 }}>
+          <div style={{ fontSize: 14, color: '#9CA3AF', marginTop: 4 }}>
             {isEdit ? 'Update fields and save.' : 'Add a company to your pipeline.'}
           </div>
         </div>
@@ -194,7 +194,7 @@ export default function AccountForm() {
           </Section>
 
           {error && (
-            <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', borderRadius: 8, padding: '10px 14px', fontSize: 13, marginBottom: 14 }}>
+            <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C', borderRadius: 8, padding: '10px 14px', fontSize: 15, marginBottom: 14 }}>
               {error}
             </div>
           )}
@@ -205,19 +205,19 @@ export default function AccountForm() {
               {isEdit && (
                 confirmDelete ? (
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <span style={{ fontSize: 12, color: '#B91C1C' }}>Delete this account permanently?</span>
+                    <span style={{ fontSize: 14, color: '#B91C1C' }}>Delete this account permanently?</span>
                     <button type="button" onClick={onDelete} disabled={del.isPending}
-                      style={{ padding: '7px 14px', background: '#EF4444', color: 'white', border: 'none', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      style={{ padding: '7px 14px', background: '#EF4444', color: 'white', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
                       {del.isPending ? 'Deleting…' : 'Yes, delete'}
                     </button>
                     <button type="button" onClick={() => setConfirmDelete(false)}
-                      style={{ padding: '7px 14px', background: 'white', border: '1px solid #ECEAF3', borderRadius: 8, fontSize: 12, color: '#6B7280', cursor: 'pointer', fontFamily: 'inherit' }}>
+                      style={{ padding: '7px 14px', background: 'white', border: '1px solid #ECEAF3', borderRadius: 8, fontSize: 14, color: '#6B7280', cursor: 'pointer', fontFamily: 'inherit' }}>
                       Cancel
                     </button>
                   </div>
                 ) : (
                   <button type="button" onClick={() => setConfirmDelete(true)}
-                    style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: 'white', color: '#B91C1C', border: '1px solid #FECACA', borderRadius: 8, fontSize: 12, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: 'white', color: '#B91C1C', border: '1px solid #FECACA', borderRadius: 8, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
                     <Trash2 size={13} /> Delete
                   </button>
                 )
@@ -225,11 +225,11 @@ export default function AccountForm() {
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
               <Link to={isEdit ? `/mobility/accounts/${id}` : '/mobility/accounts'}
-                style={{ padding: '10px 18px', background: 'white', border: '1px solid #ECEAF3', borderRadius: 8, fontSize: 13, color: '#6B7280', textDecoration: 'none', fontWeight: 500 }}>
+                style={{ padding: '10px 18px', background: 'white', border: '1px solid #ECEAF3', borderRadius: 8, fontSize: 15, color: '#6B7280', textDecoration: 'none', fontWeight: 500 }}>
                 Cancel
               </Link>
               <button type="submit" disabled={submitting}
-                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 20px', background: ACCENT, color: 'white', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: submitting ? 'not-allowed' : 'pointer', opacity: submitting ? 0.6 : 1, fontFamily: 'inherit' }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '10px 20px', background: ACCENT, color: 'white', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: submitting ? 'not-allowed' : 'pointer', opacity: submitting ? 0.6 : 1, fontFamily: 'inherit' }}>
                 <Save size={13} /> {submitting ? 'Saving…' : (isEdit ? 'Save changes' : 'Create account')}
               </button>
             </div>
@@ -246,8 +246,8 @@ function Section({ title, subtitle, children }) {
   return (
     <div style={{ background: 'white', borderRadius: 12, border: '1px solid #EDE8F3', padding: '20px 22px', marginBottom: 14 }}>
       <div style={{ marginBottom: 14 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', letterSpacing: 0.5, textTransform: 'uppercase' }}>{title}</div>
-        {subtitle && <div style={{ fontSize: 12, color: '#9CA3AF', marginTop: 4 }}>{subtitle}</div>}
+        <div style={{ fontSize: 13, fontWeight: 700, color: '#9CA3AF', letterSpacing: 0.5, textTransform: 'uppercase' }}>{title}</div>
+        {subtitle && <div style={{ fontSize: 14, color: '#9CA3AF', marginTop: 4 }}>{subtitle}</div>}
       </div>
       {children}
     </div>
@@ -262,7 +262,7 @@ function inputBase(disabled) {
   return {
     width: '100%',
     padding: '9px 12px',
-    fontSize: 13,
+    fontSize: 15,
     border: '1px solid #ECEAF3',
     borderRadius: 8,
     background: disabled ? '#F9F8FC' : 'white',
@@ -277,7 +277,7 @@ function inputBase(disabled) {
 function Field({ label, value, onChange, placeholder, type = 'text', required, disabled, maxLength }) {
   return (
     <div style={{ flex: 1, minWidth: 0 }}>
-      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#6B7280', marginBottom: 5 }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6B7280', marginBottom: 5 }}>{label}</label>
       <input
         type={type}
         value={value}
@@ -307,7 +307,7 @@ function Select({ label, value, onChange, options, disabled }) {
 function SelectRaw({ label, value, onChange, disabled, children }) {
   return (
     <div style={{ flex: 1, minWidth: 0 }}>
-      <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#6B7280', marginBottom: 5 }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#6B7280', marginBottom: 5 }}>{label}</label>
       <select value={value} onChange={(e) => onChange(e.target.value)} disabled={disabled}
         style={{ ...inputBase(disabled), cursor: disabled ? 'not-allowed' : 'pointer' }}>
         {children}

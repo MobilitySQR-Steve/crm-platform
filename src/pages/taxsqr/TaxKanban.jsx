@@ -10,7 +10,7 @@ const STAGES = [
   { id: 'onboarding',     label: 'Onboarding',     color: '#00BFE6' },
   { id: 'doc_collection', label: 'Doc Collection', color: '#F59E0B' },
   { id: 'preparation',    label: 'Preparation',    color: '#8C78FF' },
-  { id: 'review',         label: 'Review',         color: '#8D3B9D' },
+  { id: 'review',         label: 'Review',         color: '#2563EB' },
   { id: 'filing',         label: 'Filing',         color: '#3B82F6' },
   { id: 'completed',      label: 'Completed',      color: '#38AC87' },
   { id: 'on_hold',        label: 'On Hold',        color: '#9CA3AF' },
@@ -85,7 +85,7 @@ function Card({ card, stageColor, isDragging, onDragStart, onDragEnd, onClick })
 
       {/* Name row */}
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:8, gap:4 }}>
-        <div style={{ fontWeight:600, fontSize:13, color:'#0F0A1E', lineHeight:1.3, flex:1 }}>{card.name}</div>
+        <div style={{ fontWeight:600, fontSize:15, color:'#0F0A1E', lineHeight:1.3, flex:1 }}>{card.name}</div>
         <button onClick={e => e.stopPropagation()} style={{ background:'none', border:'none', cursor:'pointer', color:'#D1D5DB', padding:0, display:'flex', flexShrink:0 }}>
           <MoreHorizontal size={13} />
         </button>
@@ -93,13 +93,13 @@ function Card({ card, stageColor, isDragging, onDragStart, onDragEnd, onClick })
 
       {/* Chips row */}
       <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginBottom:9 }}>
-        <span style={{ background:'#F3F4F6', color:'#6B7280', fontSize:10, fontWeight:600, padding:'2px 6px', borderRadius:4 }}>{card.year}</span>
-        <span style={{ background:'#F3F4F6', color:'#6B7280', fontSize:10, fontWeight:600, padding:'2px 6px', borderRadius:4 }}>{card.country}</span>
+        <span style={{ background:'#F3F4F6', color:'#6B7280', fontSize:12, fontWeight:600, padding:'2px 6px', borderRadius:4 }}>{card.year}</span>
+        <span style={{ background:'#F3F4F6', color:'#6B7280', fontSize:12, fontWeight:600, padding:'2px 6px', borderRadius:4 }}>{card.country}</span>
         {card.priority === 'urgent' && (
-          <span style={{ background:'#FEE2E2', color:'#EF4444', fontSize:10, fontWeight:700, padding:'2px 6px', borderRadius:4 }}>URGENT</span>
+          <span style={{ background:'#FEE2E2', color:'#EF4444', fontSize:12, fontWeight:700, padding:'2px 6px', borderRadius:4 }}>URGENT</span>
         )}
         {card.priority === 'high' && (
-          <span style={{ background:'#FEF3C7', color:'#D97706', fontSize:10, fontWeight:700, padding:'2px 6px', borderRadius:4 }}>HIGH</span>
+          <span style={{ background:'#FEF3C7', color:'#D97706', fontSize:12, fontWeight:700, padding:'2px 6px', borderRadius:4 }}>HIGH</span>
         )}
       </div>
 
@@ -108,31 +108,31 @@ function Card({ card, stageColor, isDragging, onDragStart, onDragEnd, onClick })
         {due ? (
           <div style={{ display:'flex', alignItems:'center', gap:4 }}>
             <Clock size={10} color={due.color} />
-            <span style={{ fontSize:11, color:due.color, fontWeight:600 }}>{due.text}</span>
+            <span style={{ fontSize:13, color:due.color, fontWeight:600 }}>{due.text}</span>
           </div>
         ) : (
           <div style={{ display:'flex', alignItems:'center', gap:4 }}>
             <CheckCircle size={10} color="#38AC87" />
-            <span style={{ fontSize:11, color:'#38AC87', fontWeight:600 }}>Filed</span>
+            <span style={{ fontSize:13, color:'#38AC87', fontWeight:600 }}>Filed</span>
           </div>
         )}
-        <span style={{ fontSize:12, fontWeight:700, color:'#374151' }}>${card.fee.toLocaleString()}</span>
+        <span style={{ fontSize:14, fontWeight:700, color:'#374151' }}>${card.fee.toLocaleString()}</span>
       </div>
 
       {/* Preparer row */}
       {card.preparer ? (
         <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-          <div style={{ width:20, height:20, borderRadius:'50%', background:stageColor+'22', display:'flex', alignItems:'center', justifyContent:'center', fontSize:9, fontWeight:700, color:stageColor, flexShrink:0 }}>
+          <div style={{ width:20, height:20, borderRadius:'50%', background:stageColor+'22', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:stageColor, flexShrink:0 }}>
             {inits(card.preparer)}
           </div>
-          <span style={{ fontSize:11, color:'#6B7280' }}>{card.preparer}</span>
+          <span style={{ fontSize:13, color:'#6B7280' }}>{card.preparer}</span>
         </div>
       ) : (
         <div style={{ display:'flex', alignItems:'center', gap:6 }}>
           <div style={{ width:20, height:20, borderRadius:'50%', border:'1.5px dashed #D1D5DB', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
             <User size={9} color="#D1D5DB" />
           </div>
-          <span style={{ fontSize:11, color:'#C4C0D4', fontStyle:'italic' }}>Unassigned</span>
+          <span style={{ fontSize:13, color:'#C4C0D4', fontStyle:'italic' }}>Unassigned</span>
         </div>
       )}
     </div>
@@ -151,17 +151,17 @@ function Column({ stage, cards, dragging, isOver, onDragOver, onDrop, onCardDrag
       <div style={{ flexShrink:0, marginBottom:4, padding:'0 2px' }}>
         <div style={{ display:'flex', alignItems:'center', gap:7, marginBottom:4 }}>
           <div style={{ width:9, height:9, borderRadius:'50%', background:stage.color, flexShrink:0 }} />
-          <span style={{ fontSize:11, fontWeight:700, color:'#374151', flex:1, letterSpacing:0.4, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>
+          <span style={{ fontSize:13, fontWeight:700, color:'#374151', flex:1, letterSpacing:0.4, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>
             {stage.label.toUpperCase()}
           </span>
-          <span style={{ background:stage.color+'20', color:stage.color, fontSize:11, fontWeight:700, padding:'1px 8px', borderRadius:100, flexShrink:0 }}>
+          <span style={{ background:stage.color+'20', color:stage.color, fontSize:13, fontWeight:700, padding:'1px 8px', borderRadius:100, flexShrink:0 }}>
             {colCards.length}
           </span>
         </div>
         {/* Sub-stats */}
         <div style={{ display:'flex', gap:8, paddingLeft:16, marginBottom:10 }}>
-          {fees > 0 && <span style={{ fontSize:10, color:'#9CA3AF' }}>${(fees/1000).toFixed(1)}k fees</span>}
-          {overdue > 0 && <span style={{ fontSize:10, color:'#EF4444', fontWeight:600 }}>⚠ {overdue} overdue</span>}
+          {fees > 0 && <span style={{ fontSize:12, color:'#9CA3AF' }}>${(fees/1000).toFixed(1)}k fees</span>}
+          {overdue > 0 && <span style={{ fontSize:12, color:'#EF4444', fontWeight:600 }}>⚠ {overdue} overdue</span>}
         </div>
       </div>
 
@@ -193,13 +193,13 @@ function Column({ stage, cards, dragging, isOver, onDragOver, onDrop, onCardDrag
 
         {/* Empty state */}
         {colCards.length === 0 && !isOver && (
-          <div style={{ padding:'24px 0', textAlign:'center', color:'#D1D5DB', fontSize:12 }}>
+          <div style={{ padding:'24px 0', textAlign:'center', color:'#D1D5DB', fontSize:14 }}>
             Drop cases here
           </div>
         )}
 
         {/* Add button */}
-        <button style={{ width:'100%', padding:'8px 0', marginTop:colCards.length > 0 ? 4 : 0, borderRadius:8, border:`1.5px dashed ${stage.color}35`, background:'transparent', color:stage.color, fontSize:12, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:5, opacity:0.65, fontWeight:500 }}>
+        <button style={{ width:'100%', padding:'8px 0', marginTop:colCards.length > 0 ? 4 : 0, borderRadius:8, border:`1.5px dashed ${stage.color}35`, background:'transparent', color:stage.color, fontSize:14, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:5, opacity:0.65, fontWeight:500 }}>
           <Plus size={12} /> Add case
         </button>
       </div>
@@ -222,11 +222,11 @@ function Drawer({ card, onClose, onMove }) {
         {/* Drawer header */}
         <div style={{ padding:'22px 24px 18px', borderBottom:'1px solid #ECEAF3', background:stage.color+'08', flexShrink:0 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12 }}>
-            <span style={{ fontSize:10, fontWeight:700, color:stage.color, letterSpacing:1, textTransform:'uppercase', background:stage.color+'18', padding:'3px 10px', borderRadius:100 }}>{stage.label}</span>
+            <span style={{ fontSize:12, fontWeight:700, color:stage.color, letterSpacing:1, textTransform:'uppercase', background:stage.color+'18', padding:'3px 10px', borderRadius:100 }}>{stage.label}</span>
             <button onClick={onClose} style={{ background:'none', border:'none', cursor:'pointer', color:'#9CA3AF', display:'flex', padding:2 }}><X size={16} /></button>
           </div>
           <div style={{ fontSize:20, fontWeight:700, color:'#0F0A1E', marginBottom:4 }}>{card.name}</div>
-          <div style={{ fontSize:12, color:'#9CA3AF' }}>{caseId} · Tax Year {card.year} · {card.country}</div>
+          <div style={{ fontSize:14, color:'#9CA3AF' }}>{caseId} · Tax Year {card.year} · {card.country}</div>
         </div>
 
         {/* Drawer body */}
@@ -244,22 +244,22 @@ function Drawer({ card, onClose, onMove }) {
               <div key={label} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'13px 0', borderBottom:'1px solid #F3F4F6' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                   <Icon size={13} color="#9CA3AF" />
-                  <span style={{ fontSize:13, color:'#9CA3AF' }}>{label}</span>
+                  <span style={{ fontSize:15, color:'#9CA3AF' }}>{label}</span>
                 </div>
-                <span style={{ fontSize:13, fontWeight:600, color:vc }}>{value}</span>
+                <span style={{ fontSize:15, fontWeight:600, color:vc }}>{value}</span>
               </div>
             ))}
           </div>
 
           {/* Move stage */}
           <div style={{ marginBottom:22 }}>
-            <div style={{ fontSize:11, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>Move to Stage</div>
+            <div style={{ fontSize:13, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>Move to Stage</div>
             <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
               {STAGES.map(s => {
                 const active = s.id === card.stage;
                 return (
                   <button key={s.id} onClick={() => onMove(card.id, s.id)}
-                    style={{ padding:'5px 12px', borderRadius:100, border:`1px solid ${active ? s.color : '#ECEAF3'}`, background:active ? s.color+'18' : 'white', color:active ? s.color : '#6B7280', fontSize:11, fontWeight:active ? 700 : 400, cursor:'pointer', transition:'all 0.1s' }}>
+                    style={{ padding:'5px 12px', borderRadius:100, border:`1px solid ${active ? s.color : '#ECEAF3'}`, background:active ? s.color+'18' : 'white', color:active ? s.color : '#6B7280', fontSize:13, fontWeight:active ? 700 : 400, cursor:'pointer', transition:'all 0.1s' }}>
                     {s.label}
                   </button>
                 );
@@ -269,7 +269,7 @@ function Drawer({ card, onClose, onMove }) {
 
           {/* Doc checklist */}
           <div style={{ marginBottom:22 }}>
-            <div style={{ fontSize:11, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>Document Checklist</div>
+            <div style={{ fontSize:13, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>Document Checklist</div>
             {[
               { label:'Prior year return',     done:true  },
               { label:'W-2 / Foreign income',  done:true  },
@@ -279,17 +279,17 @@ function Drawer({ card, onClose, onMove }) {
             ].map(({ label, done }) => (
               <div key={label} style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 0', borderBottom:'1px solid #F9F8FC' }}>
                 <div style={{ width:16, height:16, borderRadius:4, border:`1.5px solid ${done ? '#38AC87' : '#D1D5DB'}`, background:done ? '#38AC87' : 'white', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  {done && <span style={{ color:'white', fontSize:10, lineHeight:1 }}>✓</span>}
+                  {done && <span style={{ color:'white', fontSize:12, lineHeight:1 }}>✓</span>}
                 </div>
-                <span style={{ fontSize:13, color:done ? '#374151' : '#9CA3AF', textDecoration:done ? 'none' : 'none' }}>{label}</span>
+                <span style={{ fontSize:15, color:done ? '#374151' : '#9CA3AF', textDecoration:done ? 'none' : 'none' }}>{label}</span>
               </div>
             ))}
           </div>
 
           {/* Notes */}
           <div>
-            <div style={{ fontSize:11, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>Notes</div>
-            <div style={{ background:'#F7F6FC', borderRadius:8, padding:'12px 14px', fontSize:13, color:'#C4C0D4', fontStyle:'italic', lineHeight:1.6 }}>
+            <div style={{ fontSize:13, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>Notes</div>
+            <div style={{ background:'#F7F6FC', borderRadius:8, padding:'12px 14px', fontSize:15, color:'#C4C0D4', fontStyle:'italic', lineHeight:1.6 }}>
               No notes yet — click to add...
             </div>
           </div>
@@ -297,10 +297,10 @@ function Drawer({ card, onClose, onMove }) {
 
         {/* Drawer footer */}
         <div style={{ padding:'14px 24px', borderTop:'1px solid #ECEAF3', display:'flex', gap:10, flexShrink:0 }}>
-          <button style={{ flex:1, padding:'10px', borderRadius:8, border:'1px solid #ECEAF3', background:'white', color:'#6B7280', fontSize:13, fontWeight:500, cursor:'pointer' }}>
+          <button style={{ flex:1, padding:'10px', borderRadius:8, border:'1px solid #ECEAF3', background:'white', color:'#6B7280', fontSize:15, fontWeight:500, cursor:'pointer' }}>
             Edit Details
           </button>
-          <button style={{ flex:1, padding:'10px', borderRadius:8, border:'none', background:stage.color, color:'white', fontSize:13, fontWeight:600, cursor:'pointer' }}>
+          <button style={{ flex:1, padding:'10px', borderRadius:8, border:'none', background:stage.color, color:'white', fontSize:15, fontWeight:600, cursor:'pointer' }}>
             Mark Complete
           </button>
         </div>
@@ -356,24 +356,24 @@ export default function TaxKanban() {
         <div style={{ display:'flex', alignItems:'center', gap:7, background:'#F7F5FC', border:'1px solid #ECEAF3', borderRadius:7, padding:'6px 12px', width:210 }}>
           <Search size={13} color="#9CA3AF" />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search clients..."
-            style={{ background:'none', border:'none', outline:'none', fontSize:13, color:'#374151', width:'100%' }} />
+            style={{ background:'none', border:'none', outline:'none', fontSize:15, color:'#374151', width:'100%' }} />
         </div>
         {/* Preparer chips */}
         <div style={{ display:'flex', alignItems:'center', gap:5 }}>
-          <span style={{ fontSize:11, color:'#9CA3AF', whiteSpace:'nowrap' }}>Preparer:</span>
+          <span style={{ fontSize:13, color:'#9CA3AF', whiteSpace:'nowrap' }}>Preparer:</span>
           {PREPARERS.map(p => (
             <button key={p} onClick={() => setPreparer(p)}
-              style={{ padding:'3px 10px', borderRadius:100, border:`1px solid ${preparer===p?'#38AC87':'#ECEAF3'}`, background:preparer===p?'#38AC8715':'white', color:preparer===p?'#38AC87':'#6B7280', fontSize:11, fontWeight:preparer===p?700:400, cursor:'pointer', whiteSpace:'nowrap' }}>
+              style={{ padding:'3px 10px', borderRadius:100, border:`1px solid ${preparer===p?'#38AC87':'#ECEAF3'}`, background:preparer===p?'#38AC8715':'white', color:preparer===p?'#38AC87':'#6B7280', fontSize:13, fontWeight:preparer===p?700:400, cursor:'pointer', whiteSpace:'nowrap' }}>
               {p}
             </button>
           ))}
         </div>
         {/* Year chips */}
         <div style={{ display:'flex', alignItems:'center', gap:5 }}>
-          <span style={{ fontSize:11, color:'#9CA3AF' }}>Year:</span>
+          <span style={{ fontSize:13, color:'#9CA3AF' }}>Year:</span>
           {YEARS.map(y => (
             <button key={y} onClick={() => setYear(y)}
-              style={{ padding:'3px 10px', borderRadius:100, border:`1px solid ${year===y?'#38AC87':'#ECEAF3'}`, background:year===y?'#38AC8715':'white', color:year===y?'#38AC87':'#6B7280', fontSize:11, fontWeight:year===y?700:400, cursor:'pointer' }}>
+              style={{ padding:'3px 10px', borderRadius:100, border:`1px solid ${year===y?'#38AC87':'#ECEAF3'}`, background:year===y?'#38AC8715':'white', color:year===y?'#38AC87':'#6B7280', fontSize:13, fontWeight:year===y?700:400, cursor:'pointer' }}>
               {y}
             </button>
           ))}
@@ -386,7 +386,7 @@ export default function TaxKanban() {
       </div>
 
       {/* ── Stats strip ── */}
-      <div style={{ height:38, background:'#F7F5FC', borderBottom:'1px solid #ECEAF3', padding:'0 22px', display:'flex', alignItems:'center', gap:16, flexShrink:0, fontSize:12 }}>
+      <div style={{ height:38, background:'#F7F5FC', borderBottom:'1px solid #ECEAF3', padding:'0 22px', display:'flex', alignItems:'center', gap:16, flexShrink:0, fontSize:14 }}>
         <span style={{ color:'#6B7280' }}><b style={{ color:'#374151' }}>{cards.length}</b> total cases</span>
         <span style={{ color:'#D1D5DB' }}>|</span>
         <span style={{ color:'#6B7280' }}><b style={{ color:'#38AC87' }}>{cards.filter(c=>c.stage==='completed').length}</b> completed</span>
@@ -404,7 +404,7 @@ export default function TaxKanban() {
           <>
             <span style={{ color:'#D1D5DB' }}>|</span>
             <span style={{ color:'#8C78FF' }}>Showing {filtered.length} of {cards.length}</span>
-            <button onClick={()=>{setSearch('');setPreparer('All');setYear('All');}} style={{ background:'none', border:'none', color:'#9CA3AF', cursor:'pointer', fontSize:11, display:'flex', alignItems:'center', gap:3 }}>
+            <button onClick={()=>{setSearch('');setPreparer('All');setYear('All');}} style={{ background:'none', border:'none', color:'#9CA3AF', cursor:'pointer', fontSize:13, display:'flex', alignItems:'center', gap:3 }}>
               <X size={10} /> Clear filters
             </button>
           </>

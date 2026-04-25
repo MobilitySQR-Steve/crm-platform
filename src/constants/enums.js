@@ -96,7 +96,7 @@ export const CONTACT_PERSONA = {
 };
 
 export const CONTACT_PERSONA_COLORS = {
-  ECONOMIC_BUYER:  '#8D3B9D',
+  ECONOMIC_BUYER:  '#2563EB',
   CHAMPION:        '#38AC87',
   TECHNICAL:       '#00BFE6',
   END_USER:        '#9CA3AF',
@@ -115,7 +115,7 @@ export const ACTIVITY_TYPE = {
 export const ACTIVITY_COLORS = {
   CALL:     '#38AC87',
   EMAIL:    '#00BFE6',
-  MEETING:  '#8D3B9D',
+  MEETING:  '#2563EB',
   NOTE:     '#8C78FF',
   SYSTEM:   '#9CA3AF',
 };

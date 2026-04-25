@@ -78,7 +78,7 @@ const NOTES = [
 const ACCENT = '#38AC87';
 const TODAY  = new Date('2026-04-22');
 
-const S_COLOR = { onboarding:'#00BFE6', doc_collection:'#F59E0B', preparation:'#8C78FF', review:'#8D3B9D', filing:'#3B82F6', completed:'#38AC87', on_hold:'#9CA3AF' };
+const S_COLOR = { onboarding:'#00BFE6', doc_collection:'#F59E0B', preparation:'#8C78FF', review:'#2563EB', filing:'#3B82F6', completed:'#38AC87', on_hold:'#9CA3AF' };
 const S_LABEL = { onboarding:'Onboarding', doc_collection:'Doc Collection', preparation:'Preparation', review:'Review', filing:'Filing', completed:'Completed', on_hold:'On Hold' };
 const T_CONFIG = { system:{ color:'#9CA3AF', icon:'⚙' }, call:{ color:'#38AC87', icon:'📞' }, email:{ color:'#00BFE6', icon:'✉' }, note:{ color:'#8C78FF', icon:'📝' } };
 
@@ -96,18 +96,18 @@ const getDue   = (d) => {
 
 // ── Shared atoms ──────────────────────────────────────────────
 const Pill = ({ label, color }) => (
-  <span style={{ padding:'3px 10px', borderRadius:100, fontSize:11, fontWeight:600, background:color+'18', color, whiteSpace:'nowrap' }}>{label}</span>
+  <span style={{ padding:'3px 10px', borderRadius:100, fontSize:13, fontWeight:600, background:color+'18', color, whiteSpace:'nowrap' }}>{label}</span>
 );
 const Card = ({ children, style={} }) => (
   <div style={{ background:'white', borderRadius:12, border:'1px solid #ECEAF3', padding:'20px 22px', ...style }}>{children}</div>
 );
 const SecTitle = ({ children }) => (
-  <div style={{ fontSize:11, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:14 }}>{children}</div>
+  <div style={{ fontSize:13, fontWeight:700, color:'#9CA3AF', letterSpacing:0.5, textTransform:'uppercase', marginBottom:14 }}>{children}</div>
 );
 const FieldRow = ({ label, value, color }) => (
   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'9px 0', borderBottom:'1px solid #F3F4F6' }}>
-    <span style={{ fontSize:13, color:'#9CA3AF' }}>{label}</span>
-    <span style={{ fontSize:13, fontWeight:500, color:color||'#374151' }}>{value||'—'}</span>
+    <span style={{ fontSize:15, color:'#9CA3AF' }}>{label}</span>
+    <span style={{ fontSize:15, fontWeight:500, color:color||'#374151' }}>{value||'—'}</span>
   </div>
 );
 
@@ -144,7 +144,7 @@ function OverviewTab() {
         <Card>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
             <SecTitle>Case History</SecTitle>
-            <button style={{ display:'flex', alignItems:'center', gap:5, padding:'5px 12px', background:ACCENT, color:'white', border:'none', borderRadius:7, fontSize:12, fontWeight:600, cursor:'pointer', marginTop:-12 }}>
+            <button style={{ display:'flex', alignItems:'center', gap:5, padding:'5px 12px', background:ACCENT, color:'white', border:'none', borderRadius:7, fontSize:14, fontWeight:600, cursor:'pointer', marginTop:-12 }}>
               <Plus size={12} /> New Case
             </button>
           </div>
@@ -152,20 +152,20 @@ function OverviewTab() {
             const due = getDue(c.due);
             return (
               <div key={c.id} style={{ display:'flex', alignItems:'center', gap:12, padding:'11px 0', borderBottom:'1px solid #F3F4F6' }}>
-                <div style={{ width:36, height:36, borderRadius:9, background:S_COLOR[c.status]+'18', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:S_COLOR[c.status], flexShrink:0 }}>
+                <div style={{ width:36, height:36, borderRadius:9, background:S_COLOR[c.status]+'18', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:800, color:S_COLOR[c.status], flexShrink:0 }}>
                   {c.year.slice(2)}
                 </div>
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:3 }}>
-                    <span style={{ fontSize:13, fontWeight:600, color:'#374151' }}>Tax Year {c.year}</span>
+                    <span style={{ fontSize:15, fontWeight:600, color:'#374151' }}>Tax Year {c.year}</span>
                     <Pill label={S_LABEL[c.status]} color={S_COLOR[c.status]} />
                   </div>
-                  <div style={{ fontSize:11, color:'#9CA3AF' }}>{c.form} · {c.preparer} · ${c.fee.toLocaleString()}{c.filed && ` · Filed ${fmtShort(c.filed)}`}</div>
+                  <div style={{ fontSize:13, color:'#9CA3AF' }}>{c.form} · {c.preparer} · ${c.fee.toLocaleString()}{c.filed && ` · Filed ${fmtShort(c.filed)}`}</div>
                 </div>
                 {due && (
                   <div style={{ display:'flex', alignItems:'center', gap:3, flexShrink:0 }}>
                     <Clock size={10} color={due.color} />
-                    <span style={{ fontSize:11, color:due.color, fontWeight:600 }}>{due.text}</span>
+                    <span style={{ fontSize:13, color:due.color, fontWeight:600 }}>{due.text}</span>
                   </div>
                 )}
                 <button style={{ background:'none', border:'none', cursor:'pointer', color:'#D1D5DB', flexShrink:0 }}><MoreHorizontal size={14} /></button>
@@ -184,8 +184,8 @@ function OverviewTab() {
               return (
                 <div key={t.id} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', background:'#F9F8FC', borderRadius:8, border:'1px solid #ECEAF3' }}>
                   <div style={{ width:14, height:14, borderRadius:4, border:`1.5px solid ${pc[t.priority]||'#D1D5DB'}`, flexShrink:0 }} />
-                  <span style={{ fontSize:13, color:'#374151', flex:1 }}>{t.title}</span>
-                  {d && <span style={{ fontSize:11, color:d.color, fontWeight:600, whiteSpace:'nowrap' }}>{d.text}</span>}
+                  <span style={{ fontSize:15, color:'#374151', flex:1 }}>{t.title}</span>
+                  {d && <span style={{ fontSize:13, color:d.color, fontWeight:600, whiteSpace:'nowrap' }}>{d.text}</span>}
                 </div>
               );
             })}
@@ -201,16 +201,16 @@ function CasesTab() {
   return (
     <div>
       <div style={{ display:'flex', justifyContent:'flex-end', marginBottom:14 }}>
-        <button style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 16px', background:ACCENT, color:'white', border:'none', borderRadius:8, fontSize:13, fontWeight:600, cursor:'pointer' }}>
+        <button style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 16px', background:ACCENT, color:'white', border:'none', borderRadius:8, fontSize:15, fontWeight:600, cursor:'pointer' }}>
           <Plus size={13} /> New Tax Case
         </button>
       </div>
       <Card style={{ padding:0 }}>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13 }}>
+        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:15 }}>
           <thead>
             <tr style={{ borderBottom:'1px solid #ECEAF3' }}>
               {['Tax Year','Form','Status','Preparer','Reviewer','Due / Filed','Fee',''].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'11px 16px', color:'#9CA3AF', fontWeight:500, fontSize:11, letterSpacing:0.5, textTransform:'uppercase', whiteSpace:'nowrap' }}>{h}</th>
+                <th key={h} style={{ textAlign:'left', padding:'11px 16px', color:'#9CA3AF', fontWeight:500, fontSize:13, letterSpacing:0.5, textTransform:'uppercase', whiteSpace:'nowrap' }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -230,12 +230,12 @@ function CasesTab() {
                     {c.filed ? (
                       <div style={{ display:'flex', alignItems:'center', gap:5 }}>
                         <CheckCircle size={13} color="#38AC87" />
-                        <span style={{ color:'#38AC87', fontWeight:500, fontSize:12 }}>Filed {fmtShort(c.filed)}</span>
+                        <span style={{ color:'#38AC87', fontWeight:500, fontSize:14 }}>Filed {fmtShort(c.filed)}</span>
                       </div>
                     ) : due ? (
                       <div style={{ display:'flex', alignItems:'center', gap:4 }}>
                         <Clock size={12} color={due.color} />
-                        <span style={{ color:due.color, fontWeight:600, fontSize:12 }}>{due.text}</span>
+                        <span style={{ color:due.color, fontWeight:600, fontSize:14 }}>{due.text}</span>
                       </div>
                     ) : '—'}
                   </td>
@@ -246,7 +246,7 @@ function CasesTab() {
             })}
           </tbody>
         </table>
-        <div style={{ padding:'12px 16px', borderTop:'1px solid #ECEAF3', display:'flex', justifyContent:'space-between', fontSize:12, color:'#9CA3AF' }}>
+        <div style={{ padding:'12px 16px', borderTop:'1px solid #ECEAF3', display:'flex', justifyContent:'space-between', fontSize:14, color:'#9CA3AF' }}>
           <span>3 cases total · 2 completed</span>
           <span style={{ fontWeight:600, color:'#374151' }}>Total fees: ${CASES.reduce((s,c)=>s+c.fee,0).toLocaleString()}</span>
         </div>
@@ -274,13 +274,13 @@ function DocumentsTab() {
               </div>
               <div style={{ display:'flex', alignItems:'center', gap:12 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                  <span style={{ fontSize:12, color:'#9CA3AF' }}>{recv}/{yr.docs.length} received</span>
+                  <span style={{ fontSize:14, color:'#9CA3AF' }}>{recv}/{yr.docs.length} received</span>
                   <div style={{ width:72, height:4, background:'#F3F4F6', borderRadius:2 }}>
                     <div style={{ height:'100%', borderRadius:2, width:`${pct}%`, background:pct===100?ACCENT:'#F59E0B', transition:'width 0.3s' }} />
                   </div>
-                  <span style={{ fontSize:11, fontWeight:700, color:pct===100?ACCENT:'#F59E0B' }}>{pct}%</span>
+                  <span style={{ fontSize:13, fontWeight:700, color:pct===100?ACCENT:'#F59E0B' }}>{pct}%</span>
                 </div>
-                <button style={{ display:'flex', alignItems:'center', gap:5, padding:'5px 11px', border:`1px solid ${ACCENT}35`, borderRadius:7, background:'transparent', color:ACCENT, fontSize:12, cursor:'pointer', fontWeight:500 }}>
+                <button style={{ display:'flex', alignItems:'center', gap:5, padding:'5px 11px', border:`1px solid ${ACCENT}35`, borderRadius:7, background:'transparent', color:ACCENT, fontSize:14, cursor:'pointer', fontWeight:500 }}>
                   <Upload size={12} /> Upload
                 </button>
               </div>
@@ -291,13 +291,13 @@ function DocumentsTab() {
               <div key={doc.name} style={{ display:'flex', alignItems:'center', gap:12, padding:'9px 0', borderTop:'1px solid #F9F8FC' }}>
                 {/* Checkbox */}
                 <div style={{ width:20, height:20, borderRadius:5, border:`1.5px solid ${doc.received?ACCENT:'#E5E7EB'}`, background:doc.received?ACCENT:'white', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, transition:'all 0.15s' }}>
-                  {doc.received && <span style={{ color:'white', fontSize:11, fontWeight:700, lineHeight:1 }}>✓</span>}
+                  {doc.received && <span style={{ color:'white', fontSize:13, fontWeight:700, lineHeight:1 }}>✓</span>}
                 </div>
-                <span style={{ fontSize:13, color:doc.received?'#374151':'#9CA3AF', flex:1 }}>{doc.name}</span>
-                <span style={{ fontSize:10, color:'#9CA3AF', background:'#F3F4F6', padding:'2px 7px', borderRadius:4, fontWeight:500, whiteSpace:'nowrap' }}>{doc.type}</span>
+                <span style={{ fontSize:15, color:doc.received?'#374151':'#9CA3AF', flex:1 }}>{doc.name}</span>
+                <span style={{ fontSize:12, color:'#9CA3AF', background:'#F3F4F6', padding:'2px 7px', borderRadius:4, fontWeight:500, whiteSpace:'nowrap' }}>{doc.type}</span>
                 {doc.received && doc.date
-                  ? <span style={{ fontSize:11, color:'#9CA3AF', whiteSpace:'nowrap' }}>{fmtShort(doc.date)}</span>
-                  : <span style={{ fontSize:11, color:'#EF4444', fontWeight:600, whiteSpace:'nowrap' }}>Missing</span>
+                  ? <span style={{ fontSize:13, color:'#9CA3AF', whiteSpace:'nowrap' }}>{fmtShort(doc.date)}</span>
+                  : <span style={{ fontSize:13, color:'#EF4444', fontWeight:600, whiteSpace:'nowrap' }}>Missing</span>
                 }
                 {doc.received
                   ? <button style={{ background:'none', border:'none', cursor:'pointer', color:'#C4C0D4', display:'flex', flexShrink:0 }}><FileText size={13} /></button>
@@ -317,7 +317,7 @@ function TimelineTab() {
   return (
     <div>
       <div style={{ display:'flex', justifyContent:'flex-end', marginBottom:16 }}>
-        <button style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 16px', background:'white', color:'#374151', border:'1px solid #ECEAF3', borderRadius:8, fontSize:13, fontWeight:500, cursor:'pointer' }}>
+        <button style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 16px', background:'white', color:'#374151', border:'1px solid #ECEAF3', borderRadius:8, fontSize:15, fontWeight:500, cursor:'pointer' }}>
           <Plus size={13} /> Log Activity
         </button>
       </div>
@@ -336,16 +336,16 @@ function TimelineTab() {
                 {/* Content */}
                 <div style={{ flex:1, background:'white', borderRadius:10, border:'1px solid #ECEAF3', padding:'13px 16px' }}>
                   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:5 }}>
-                    <span style={{ fontSize:13, fontWeight:600, color:'#374151' }}>{t.subject}</span>
-                    <span style={{ fontSize:11, color:'#9CA3AF', whiteSpace:'nowrap', marginLeft:12, flexShrink:0 }}>{fmtShort(t.date)}</span>
+                    <span style={{ fontSize:15, fontWeight:600, color:'#374151' }}>{t.subject}</span>
+                    <span style={{ fontSize:13, color:'#9CA3AF', whiteSpace:'nowrap', marginLeft:12, flexShrink:0 }}>{fmtShort(t.date)}</span>
                   </div>
-                  <p style={{ fontSize:12, color:'#6B7280', lineHeight:1.55, margin:'0 0 10px' }}>{t.detail}</p>
+                  <p style={{ fontSize:14, color:'#6B7280', lineHeight:1.55, margin:'0 0 10px' }}>{t.detail}</p>
                   <div style={{ display:'flex', alignItems:'center', gap:7 }}>
                     <div style={{ width:18, height:18, borderRadius:'50%', background:ACCENT+'1A', display:'flex', alignItems:'center', justifyContent:'center', fontSize:8, fontWeight:700, color:ACCENT }}>
                       {inits(t.by)}
                     </div>
-                    <span style={{ fontSize:11, color:'#9CA3AF' }}>{t.by}</span>
-                    <span style={{ fontSize:10, color:cfg.color, background:cfg.color+'12', padding:'1px 7px', borderRadius:100, fontWeight:600, textTransform:'capitalize' }}>{t.type}</span>
+                    <span style={{ fontSize:13, color:'#9CA3AF' }}>{t.by}</span>
+                    <span style={{ fontSize:12, color:cfg.color, background:cfg.color+'12', padding:'1px 7px', borderRadius:100, fontWeight:600, textTransform:'capitalize' }}>{t.type}</span>
                   </div>
                 </div>
               </div>
@@ -362,7 +362,7 @@ function NotesTab() {
   return (
     <div>
       <div style={{ display:'flex', justifyContent:'flex-end', marginBottom:16 }}>
-        <button style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 16px', background:ACCENT, color:'white', border:'none', borderRadius:8, fontSize:13, fontWeight:600, cursor:'pointer' }}>
+        <button style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 16px', background:ACCENT, color:'white', border:'none', borderRadius:8, fontSize:15, fontWeight:600, cursor:'pointer' }}>
           <Plus size={13} /> Add Note
         </button>
       </div>
@@ -371,12 +371,12 @@ function NotesTab() {
           <Card key={n.id}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12 }}>
               <div style={{ display:'flex', alignItems:'center', gap:9 }}>
-                <div style={{ width:30, height:30, borderRadius:'50%', background:ACCENT+'1A', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:ACCENT, flexShrink:0 }}>
+                <div style={{ width:30, height:30, borderRadius:'50%', background:ACCENT+'1A', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, color:ACCENT, flexShrink:0 }}>
                   {inits(n.by)}
                 </div>
                 <div>
-                  <div style={{ fontSize:13, fontWeight:600, color:'#374151' }}>{n.by}</div>
-                  <div style={{ fontSize:11, color:'#9CA3AF' }}>{fmt(n.date)}</div>
+                  <div style={{ fontSize:15, fontWeight:600, color:'#374151' }}>{n.by}</div>
+                  <div style={{ fontSize:13, color:'#9CA3AF' }}>{fmt(n.date)}</div>
                 </div>
               </div>
               <div style={{ display:'flex', gap:6 }}>
@@ -384,7 +384,7 @@ function NotesTab() {
                 <button style={{ background:'none', border:'none', cursor:'pointer', color:'#C4C0D4', display:'flex' }}><MoreHorizontal size={13} /></button>
               </div>
             </div>
-            <p style={{ fontSize:13, color:'#374151', lineHeight:1.65, margin:0 }}>{n.text}</p>
+            <p style={{ fontSize:15, color:'#374151', lineHeight:1.65, margin:0 }}>{n.text}</p>
           </Card>
         ))}
       </div>
@@ -424,28 +424,28 @@ export default function ClientProfile() {
             <div>
               <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:6 }}>
                 <h1 style={{ fontSize:22, fontWeight:800, color:'#0F0A1E', margin:0, lineHeight:1 }}>{CLIENT.name}</h1>
-                <span style={{ padding:'3px 10px', borderRadius:100, fontSize:11, fontWeight:700, background:ACCENT+'18', color:ACCENT }}>Active</span>
+                <span style={{ padding:'3px 10px', borderRadius:100, fontSize:13, fontWeight:700, background:ACCENT+'18', color:ACCENT }}>Active</span>
               </div>
               <div style={{ display:'flex', alignItems:'center', gap:18, flexWrap:'wrap' }}>
-                <span style={{ fontSize:13, color:'#6B7280', display:'flex', alignItems:'center', gap:5 }}>
+                <span style={{ fontSize:15, color:'#6B7280', display:'flex', alignItems:'center', gap:5 }}>
                   <Mail size={12} color="#9CA3AF" /> {CLIENT.email}
                 </span>
-                <span style={{ fontSize:13, color:'#6B7280', display:'flex', alignItems:'center', gap:5 }}>
+                <span style={{ fontSize:15, color:'#6B7280', display:'flex', alignItems:'center', gap:5 }}>
                   <Phone size={12} color="#9CA3AF" /> {CLIENT.phone}
                 </span>
-                <span style={{ fontSize:13, color:'#6B7280', display:'flex', alignItems:'center', gap:5 }}>
+                <span style={{ fontSize:15, color:'#6B7280', display:'flex', alignItems:'center', gap:5 }}>
                   <Globe size={12} color="#9CA3AF" /> {CLIENT.filingCountry} · {CLIENT.taxResidency}
                 </span>
-                <span style={{ fontSize:13, color:'#6B7280' }}>Owner: <b style={{ color:'#374151' }}>{CLIENT.owner}</b></span>
+                <span style={{ fontSize:15, color:'#6B7280' }}>Owner: <b style={{ color:'#374151' }}>{CLIENT.owner}</b></span>
               </div>
             </div>
           </div>
           {/* Actions */}
           <div style={{ display:'flex', gap:8, flexShrink:0 }}>
-            <button style={{ display:'flex', alignItems:'center', gap:5, padding:'8px 14px', background:'white', border:'1px solid #ECEAF3', borderRadius:8, fontSize:13, color:'#6B7280', cursor:'pointer', fontWeight:500 }}>
+            <button style={{ display:'flex', alignItems:'center', gap:5, padding:'8px 14px', background:'white', border:'1px solid #ECEAF3', borderRadius:8, fontSize:15, color:'#6B7280', cursor:'pointer', fontWeight:500 }}>
               <Pencil size={13} /> Edit
             </button>
-            <button style={{ display:'flex', alignItems:'center', gap:5, padding:'8px 16px', background:ACCENT, color:'white', border:'none', borderRadius:8, fontSize:13, fontWeight:600, cursor:'pointer' }}>
+            <button style={{ display:'flex', alignItems:'center', gap:5, padding:'8px 16px', background:ACCENT, color:'white', border:'none', borderRadius:8, fontSize:15, fontWeight:600, cursor:'pointer' }}>
               <Plus size={13} /> New Case
             </button>
           </div>
@@ -462,8 +462,8 @@ export default function ClientProfile() {
             { label:'Client Since',  value:CLIENT.since },
           ].map((s,i) => (
             <div key={s.label} style={{ padding:'12px 20px', borderLeft:i>0?'1px solid #F3F4F6':'none', flexShrink:0 }}>
-              <div style={{ fontSize:10, color:'#9CA3AF', fontWeight:600, letterSpacing:0.3, textTransform:'uppercase', marginBottom:3 }}>{s.label}</div>
-              <div style={{ fontSize:14, fontWeight:700, color:s.color||'#0F0A1E', whiteSpace:'nowrap' }}>{s.value}</div>
+              <div style={{ fontSize:12, color:'#9CA3AF', fontWeight:600, letterSpacing:0.3, textTransform:'uppercase', marginBottom:3 }}>{s.label}</div>
+              <div style={{ fontSize:16, fontWeight:700, color:s.color||'#0F0A1E', whiteSpace:'nowrap' }}>{s.value}</div>
             </div>
           ))}
         </div>
@@ -472,10 +472,10 @@ export default function ClientProfile() {
         <div style={{ display:'flex', gap:0, marginTop:4 }}>
           {TABS.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
-              style={{ display:'flex', alignItems:'center', gap:6, padding:'12px 20px', fontSize:13, fontWeight:tab===t.id?600:400, color:tab===t.id?ACCENT:'#6B7280', background:'none', border:'none', cursor:'pointer', borderBottom:`2px solid ${tab===t.id?ACCENT:'transparent'}`, transition:'all 0.15s', whiteSpace:'nowrap' }}>
+              style={{ display:'flex', alignItems:'center', gap:6, padding:'12px 20px', fontSize:15, fontWeight:tab===t.id?600:400, color:tab===t.id?ACCENT:'#6B7280', background:'none', border:'none', cursor:'pointer', borderBottom:`2px solid ${tab===t.id?ACCENT:'transparent'}`, transition:'all 0.15s', whiteSpace:'nowrap' }}>
               {t.label}
               {t.badge && (
-                <span style={{ background:'#EF4444', color:'white', fontSize:10, fontWeight:700, padding:'1px 6px', borderRadius:100, lineHeight:1.4 }}>{t.badge}</span>
+                <span style={{ background:'#EF4444', color:'white', fontSize:12, fontWeight:700, padding:'1px 6px', borderRadius:100, lineHeight:1.4 }}>{t.badge}</span>
               )}
             </button>
           ))}
