@@ -13,3 +13,7 @@ api/node_modules/
 # IDE
 .vscode/
 .idea/
+
+# Claude Code / agent skill artifacts
+.agents/
+skills-lock.json
