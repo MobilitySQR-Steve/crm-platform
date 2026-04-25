@@ -12,6 +12,8 @@ import TaxKanban       from './pages/taxsqr/TaxKanban';
 // MobilitySQR
 import MobilityDashboard from './pages/mobility/MobilityDashboard';
 import AccountList       from './pages/mobility/AccountList';
+import AccountDetail     from './pages/mobility/AccountDetail';
+import AccountForm       from './pages/mobility/AccountForm';
 import PipelineKanban    from './pages/mobility/PipelineKanban';
 
 // Shared
@@ -39,6 +41,9 @@ export default function App() {
         <Route element={<RequireAuth />}>
           <Route path="/mobility/dashboard"         element={<MobilityDashboard />} />
           <Route path="/mobility/accounts"          element={<AccountList />} />
+          <Route path="/mobility/accounts/new"      element={<AccountForm />} />
+          <Route path="/mobility/accounts/:id"      element={<AccountDetail />} />
+          <Route path="/mobility/accounts/:id/edit" element={<AccountForm />} />
           <Route path="/mobility/contacts"          element={<Placeholder title="Contacts" />} />
           <Route path="/mobility/pipeline"          element={<Navigate to="/mobility/pipeline/kanban" replace />} />
           <Route path="/mobility/pipeline/kanban"   element={<PipelineKanban />} />
