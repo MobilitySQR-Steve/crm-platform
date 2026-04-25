@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AppShell from './components/shell/AppShell';
+import RequireAuth from './auth/RequireAuth';
+import Login from './pages/auth/Login';
 
 // TaxSQR
 import TaxDashboard    from './pages/taxsqr/TaxDashboard';
@@ -18,10 +20,11 @@ import Placeholder from './pages/shared/Placeholder';
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/taxsqr/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/mobility/dashboard" replace />} />
+      <Route path="/login" element={<Login />} />
 
       <Route element={<AppShell />}>
-        {/* ── TaxSQR ────────────────────────────── */}
+        {/* ── TaxSQR (public for now — design-partner focus is MobilitySQR) ── */}
         <Route path="/taxsqr/dashboard"   element={<TaxDashboard />} />
         <Route path="/taxsqr/clients"     element={<ClientList />} />
         <Route path="/taxsqr/clients/:id" element={<ClientProfile />} />
@@ -32,16 +35,18 @@ export default function App() {
         <Route path="/taxsqr/tasks"        element={<Placeholder title="My Tasks" />} />
         <Route path="/taxsqr/reports"      element={<Placeholder title="Reports" />} />
 
-        {/* ── MobilitySQR ───────────────────────── */}
-        <Route path="/mobility/dashboard"         element={<MobilityDashboard />} />
-        <Route path="/mobility/accounts"          element={<AccountList />} />
-        <Route path="/mobility/contacts"          element={<Placeholder title="Contacts" />} />
-        <Route path="/mobility/pipeline"          element={<Navigate to="/mobility/pipeline/kanban" replace />} />
-        <Route path="/mobility/pipeline/kanban"   element={<PipelineKanban />} />
-        <Route path="/mobility/pipeline/list"     element={<Placeholder title="Pipeline — List View" />} />
-        <Route path="/mobility/workflows"         element={<Placeholder title="Workflows" />} />
-        <Route path="/mobility/tasks"             element={<Placeholder title="My Tasks" />} />
-        <Route path="/mobility/reports"           element={<Placeholder title="Reports" />} />
+        {/* ── MobilitySQR (auth required) ─────────────────────────────────── */}
+        <Route element={<RequireAuth />}>
+          <Route path="/mobility/dashboard"         element={<MobilityDashboard />} />
+          <Route path="/mobility/accounts"          element={<AccountList />} />
+          <Route path="/mobility/contacts"          element={<Placeholder title="Contacts" />} />
+          <Route path="/mobility/pipeline"          element={<Navigate to="/mobility/pipeline/kanban" replace />} />
+          <Route path="/mobility/pipeline/kanban"   element={<PipelineKanban />} />
+          <Route path="/mobility/pipeline/list"     element={<Placeholder title="Pipeline — List View" />} />
+          <Route path="/mobility/workflows"         element={<Placeholder title="Workflows" />} />
+          <Route path="/mobility/tasks"             element={<Placeholder title="My Tasks" />} />
+          <Route path="/mobility/reports"           element={<Placeholder title="Reports" />} />
+        </Route>
       </Route>
     </Routes>
   );

@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ChevronLeft, ChevronRight, ChevronDown,
-  Search, Bell, Settings,
+  Search, Bell, Settings, LogOut,
 } from 'lucide-react';
 import { MODULES, BREADCRUMB_LABELS } from '../../constants/brand';
+import { useAuth } from '../../auth/AuthContext';
 
 const SB     = '#0D0720';
 const SBBORD = 'rgba(255,255,255,0.07)';
@@ -21,11 +22,27 @@ function useBreadcrumb(pathname) {
 function Sidebar({ moduleKey, collapsed, setCollapsed }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout, isLoggingOut } = useAuth();
   const [expanded, setExpanded] = useState({});
 
   const mod    = MODULES[moduleKey];
   const accent = mod.color;
   const path   = location.pathname;
+
+  // Display values: real user when authed, fallback placeholder otherwise.
+  const displayName = user ? `${user.firstName} ${user.lastName}` : 'Steve W.';
+  const displayRole = user
+    ? user.role.charAt(0) + user.role.slice(1).toLowerCase()
+    : 'Admin';
+  const initials = user
+    ? `${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`.toUpperCase()
+    : 'SW';
+
+  const handleLogout = async () => {
+    try { await logout(); }
+    catch { /* swallow — UI will still update via cache invalidation */ }
+    navigate('/login', { replace: true });
+  };
 
   const switchModule = (key) => {
     navigate(MODULES[key].nav[0].path);
@@ -128,21 +145,39 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
       <div style={{ borderTop:`1px solid ${SBBORD}`, padding: collapsed ? '12px 11px' : '12px 13px', flexShrink:0 }}>
         {collapsed ? (
           <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:10 }}>
-            <button onClick={() => setCollapsed(false)} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.22)', cursor:'pointer', display:'flex', padding:4 }}>
+            <button onClick={() => setCollapsed(false)} title="Expand sidebar"
+              style={{ background:'none', border:'none', color:'rgba(255,255,255,0.22)', cursor:'pointer', display:'flex', padding:4 }}>
               <ChevronRight size={14} />
             </button>
-            <div style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:'white', transition:'background 0.3s' }}>SW</div>
+            <div title={displayName}
+              style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:'white', transition:'background 0.3s' }}>
+              {initials}
+            </div>
+            {user && (
+              <button onClick={handleLogout} disabled={isLoggingOut} title="Sign out"
+                style={{ background:'none', border:'none', color:'rgba(255,255,255,0.42)', cursor:'pointer', display:'flex', padding:4, opacity: isLoggingOut ? 0.4 : 1 }}>
+                <LogOut size={14} />
+              </button>
+            )}
           </div>
         ) : (
           <>
-            <button style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.28)', marginBottom:2, fontSize:13 }}>
-              <Settings size={14} /> Settings
-            </button>
+            {user ? (
+              <button onClick={handleLogout} disabled={isLoggingOut}
+                style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.42)', marginBottom:2, fontSize:13, cursor: isLoggingOut ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: isLoggingOut ? 0.5 : 1 }}>
+                <LogOut size={14} /> {isLoggingOut ? 'Signing out…' : 'Sign out'}
+              </button>
+            ) : (
+              <button
+                style={{ width:'100%', display:'flex', alignItems:'center', gap:8, padding:'7px 8px', borderRadius:7, border:'none', background:'transparent', color:'rgba(255,255,255,0.28)', marginBottom:2, fontSize:13, cursor:'pointer', fontFamily: 'inherit' }}>
+                <Settings size={14} /> Settings
+              </button>
+            )}
             <div style={{ display:'flex', alignItems:'center', gap:9, padding:'7px 8px' }}>
-              <div style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>SW</div>
-              <div>
-                <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.82)' }}>Steve W.</div>
-                <div style={{ fontSize:10, color:'rgba(255,255,255,0.28)' }}>Admin</div>
+              <div style={{ width:30, height:30, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>{initials}</div>
+              <div style={{ minWidth:0, flex:1 }}>
+                <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.82)', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{displayName}</div>
+                <div style={{ fontSize:10, color:'rgba(255,255,255,0.28)' }}>{displayRole}</div>
               </div>
             </div>
           </>
@@ -154,6 +189,10 @@ function Sidebar({ moduleKey, collapsed, setCollapsed }) {
 
 // ── Top bar ───────────────────────────────────────────────────
 function TopBar({ breadcrumb, accent }) {
+  const { user } = useAuth();
+  const initials = user
+    ? `${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`.toUpperCase()
+    : 'SW';
   return (
     <div style={{ height:56, background:'white', borderBottom:'1px solid #ECEAF3', padding:'0 22px', display:'flex', alignItems:'center', gap:12, flexShrink:0, position:'relative', zIndex:10 }}>
       <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${accent}70,transparent 40%)`, transition:'background 0.3s' }} />
@@ -178,7 +217,7 @@ function TopBar({ breadcrumb, accent }) {
         <span style={{ position:'absolute', top:5, right:5, width:7, height:7, background:'#EF4444', borderRadius:'50%', border:'1.5px solid white' }} />
       </button>
       {/* User avatar */}
-      <div style={{ width:32, height:32, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>SW</div>
+      <div style={{ width:32, height:32, borderRadius:'50%', background:accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700, color:'white', flexShrink:0, transition:'background 0.3s' }}>{initials}</div>
     </div>
   );
 }
