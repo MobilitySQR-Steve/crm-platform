@@ -158,3 +158,14 @@ export function useSourceAccounts() {
     },
   });
 }
+
+// ── Outreach drafting ────────────────────────────────────────────
+
+export function useDraftOutreach() {
+  // No invalidation — drafting is a pure read operation, doesn't mutate
+  // server state. The "Log as activity" button uses useCreateActivity.
+  return useMutation({
+    mutationFn: ({ accountId }) =>
+      api(`/outreach/account/${accountId}/draft`, { method: 'POST', body: {} }),
+  });
+}

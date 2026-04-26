@@ -14,6 +14,7 @@ import { contactRoutes } from './routes/contacts.js';
 import { activityRoutes } from './routes/activities.js';
 import { userRoutes } from './routes/users.js';
 import { enrichmentRoutes } from './routes/enrichment.js';
+import { outreachRoutes } from './routes/outreach.js';
 
 function resolveCorsOrigin(): string | string[] | false {
   if (config.NODE_ENV === 'development') return 'http://localhost:5173';
@@ -45,6 +46,7 @@ export async function buildServer() {
   await app.register(activityRoutes, { prefix: '/activities' });
   await app.register(userRoutes, { prefix: '/users' });
   await app.register(enrichmentRoutes, { prefix: '/enrichment' });
+  await app.register(outreachRoutes, { prefix: '/outreach' });
 
   app.setErrorHandler((error: FastifyError, request, reply) => {
     request.log.error({ err: error }, 'request errored');

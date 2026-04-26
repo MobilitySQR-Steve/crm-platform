@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
-  Globe, Linkedin, MapPin, Pencil, Plus, Mail, Phone,
+  Globe, Linkedin, MapPin, Pencil, Plus, Mail, Phone, Send,
   CheckCircle2, AlertCircle, Loader2, Sparkles, Clock, ArrowLeft, ExternalLink,
 } from 'lucide-react';
 import { useAccount, useEnrichAccount } from '../../lib/queries';
@@ -17,6 +17,7 @@ import {
 import AddContactModal from './account/AddContactModal';
 import AddOpportunityModal from './account/AddOpportunityModal';
 import LogActivityModal from './account/LogActivityModal';
+import DraftOutreachModal from './account/DraftOutreachModal';
 
 const ACCENT = '#2563EB';
 
@@ -27,6 +28,7 @@ export default function AccountDetail() {
   const [contactOpen, setContactOpen] = useState(false);
   const [oppOpen, setOppOpen] = useState(false);
   const [actOpen, setActOpen] = useState(false);
+  const [draftOpen, setDraftOpen] = useState(false);
 
   if (isLoading) {
     return <div style={{ padding: 40, color: '#9CA3AF', fontSize: 15 }}>
@@ -107,11 +109,16 @@ export default function AccountDetail() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 8, flexShrink: 0, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             <Link to={`/mobility/accounts/${account.id}/edit`}
               style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 14px', background: 'white', border: '1px solid #ECEAF3', borderRadius: 8, fontSize: 15, color: '#6B7280', textDecoration: 'none', fontWeight: 500 }}>
               <Pencil size={13} /> Edit
             </Link>
+            <button onClick={() => setDraftOpen(true)} disabled={!account.triggerNote}
+              title={account.triggerNote ? 'Draft a first-touch outreach email' : 'Add a trigger note (run enrichment or edit) before drafting'}
+              style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 14px', background: account.triggerNote ? 'white' : '#F9F8FC', border: `1px solid ${account.triggerNote ? '#DBEAFE' : '#ECEAF3'}`, borderRadius: 8, fontSize: 15, color: account.triggerNote ? ACCENT : '#C4C0D4', cursor: account.triggerNote ? 'pointer' : 'not-allowed', fontWeight: 500, fontFamily: 'inherit' }}>
+              <Send size={13} /> Draft outreach
+            </button>
             <button onClick={() => setOppOpen(true)}
               style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', background: ACCENT, color: 'white', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
               <Plus size={13} /> New Opportunity
@@ -172,6 +179,7 @@ export default function AccountDetail() {
       <AddContactModal open={contactOpen} onClose={() => setContactOpen(false)} accountId={account.id} />
       <AddOpportunityModal open={oppOpen} onClose={() => setOppOpen(false)} accountId={account.id} />
       <LogActivityModal open={actOpen} onClose={() => setActOpen(false)} accountId={account.id} />
+      <DraftOutreachModal open={draftOpen} onClose={() => setDraftOpen(false)} accountId={account.id} />
 
       <style>{`.spin { animation: spin 1s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
