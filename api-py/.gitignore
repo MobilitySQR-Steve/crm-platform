@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local SQLite (dev only — production uses Postgres via DATABASE_URL)
+db.sqlite3
+db.sqlite3-journal
+
+# Env files
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
