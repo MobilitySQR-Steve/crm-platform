@@ -157,20 +157,36 @@ CORS_ALLOW_CREDENTIALS = True
 # ── DRF ──────────────────────────────────────────────────────────
 
 REST_FRAMEWORK = {
+    # Custom session auth that skips CSRF (matches the TS Fastify backend
+    # behavior — CSRF is handled by SameSite cookies + CORS allowlist).
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
+        "users.authentication.CsrfExemptSessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    # CamelCase parser/renderer so the React frontend's existing JSON
+    # shapes work unchanged: incoming `{accountId: ...}` maps to
+    # `account_id` field; outgoing `account_id` becomes `accountId`.
     "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
     ],
     "DEFAULT_PARSER_CLASSES": [
-        "rest_framework.parsers.JSONParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
     ],
+    "DEFAULT_THROTTLE_CLASSES": [],
+    "DEFAULT_THROTTLE_RATES": {
+        "login": "5/minute",
+        "register": "3/minute",
+    },
     "EXCEPTION_HANDLER": "crm_project.exceptions.handler",
     "UNAUTHENTICATED_USER": None,
+    # Preserve specific keys through the camelCase conversion. Without
+    # this, `_count` becomes `Count` (loses the leading underscore) and
+    # the React frontend's `account._count.opportunities` lookup breaks.
+    "JSON_UNDERSCOREIZE": {
+        "ignore_keys": ["_count"],
+    },
 }
 
 # ── i18n ─────────────────────────────────────────────────────────
