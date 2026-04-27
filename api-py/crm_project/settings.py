@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "users",
     "crm",
-    # Commit 3: "ai",
+    "ai",
 ]
 
 MIDDLEWARE = [

@@ -30,5 +30,5 @@ urlpatterns = [
     *auth_urlpatterns,
     *users_urlpatterns,
     path("", include("crm.urls")),
-    # Commit 3 will add: /enrichment, /outreach
+    path("", include("ai.urls")),
 ]
