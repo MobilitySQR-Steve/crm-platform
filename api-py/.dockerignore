@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# Local SQLite — never ship to production
+db.sqlite3
+db.sqlite3-journal
+
+# Env files — secrets go via the AWS deployment surface, not the image
+.env
+.env.local
+*.local
+
+# Test + coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / OS noise
+.vscode/
+.idea/
+.DS_Store

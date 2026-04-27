@@ -4,10 +4,14 @@ Python rewrite of the original Node/Fastify backend in `../api/`. Built for
 hand-off to the in-house Python team and AWS deployment alongside other
 Python tools.
 
-> **Status: Commit 1 of 4** — project skeleton, models, Django Admin. CRUD
-> endpoints come in Commit 2; AI services in Commit 3; deploy/cron in Commit 4.
-> The Node backend in `../api/` is still the canonical live service. Don't
-> point the React frontend here yet.
+> **Status: feature-complete (Commits 1–4 shipped).** All endpoints, AI
+> services, and the morning cron are ported. To switch the frontend over,
+> point `VITE_API_URL` at this Django backend and update Django's
+> `CORS_ALLOWED_ORIGINS` to include the frontend URL.
+>
+> The Node backend in `../api/` stays in the repo as a reference. Once
+> the team is happy with this Python version in production, delete `api/`
+> and rename `api-py/` → `api/` to make it canonical.
 
 ## Stack
 
